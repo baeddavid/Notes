@@ -156,6 +156,33 @@ Node getSuccessor(Node root, Node succ, int key) {
     return succ;
 }
 #+END_SRC
+*** Insertion and Deletion
+**** Insertion
+To insert a new value v into a binary search tree T, we use the procedure TREE-INSERT. The procedure takes a node z for which z.key = v, z.left = NIL, and z.right = NIL. It modifies T and some of the attributes of z in such a way that it inserts z into an appropriate position in the tree.
+
+#+BEGIN_SRC java
+void TreeInsert(Node root, Node insert) {
+    Node y = null;
+    Node x = root;
+
+    while(x != null) {
+        y = x;
+        if(insert.key < x.key) {
+            x = x.left;
+        } else {
+            x = x.right;
+        }
+    }
+    insert.parent = y;
+    if(y == null) {
+        root = insert;
+    } else if(insert.key < y.key) {
+        y.left = current;
+    } else {
+        y.right = insert;
+    }
+}
+#+END_SRC
 *** Thoughts on Trees
 Take note that of the two operations we have already looked at we are able to use both iterative and recursive implementations. This is due to the recursive nature of the data structure.
 *** Exercises
