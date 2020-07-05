@@ -1,0 +1,160 @@
+#+TITLE: Trees
+#+DESCRIPTION: Notes on trees/tree problems
+
+* Algo Notes
+** Trees
+*** Traversals
+**** Three main ways to traverse a tree
+***** Inorder Traversal
+#+BEGIN_SRC java
+void inorder(Node root) {
+    if(root != null) {
+        inorder(root.left);
+        System.out.print(root.data);
+        inorder(roof.right);
+    }
+}
+#+END_SRC
+We can traverse the tree iteratively if we use a stack
+#+BEGIN_SRC java
+void inorder(Node root) {
+    Stack <Node> s = new Stack <>();
+    s.push(root);
+    Node curr = root;
+
+    while(!s.isEmpty() || curr != null) {
+        while(curr != null) {
+            s.push(curr);
+            curr = curr.left;
+        }
+        curr = s.pop();
+        System.out.print(curr.data);
+        curr = curr.right;
+    }
+}
+#+END_SRC
+***** Preorder Traversal
+#+BEGIN_SRC java
+void preorder(Node root) {
+    if(root != null) {
+        System.out.print(root.data);
+        preorder(root.left);
+        preorder(root.right);
+    }
+}
+#+END_SRC
+***** Postorder Traversal
+#+BEGIN_SRC java
+void postorder(Node root) {
+    if(root != null) {
+        postorder(root.left);
+        postorder(root.right);
+        System.out.print(root.data);
+    }
+}
+#+END_SRC
+*** Search
+Due to the nature of binary search trees, searching for an element is a fast operation taking only O(n log n) time.
+This too can be done either recursively or iteratively.
+**** Recursive
+#+BEGIN_SRC java
+Node search(Node root, int key) {
+    if(root == null || key = root.data) {
+        return root;
+    }
+
+    if(key < root.data) {
+        return search(root.left, key);
+    } else {
+        return search(root.right, key);
+    }
+}
+#+END_SRC
+**** Iterative
+#+BEGIN_SRC java
+Node search(Node root, int key) {
+    while(root != null && root.data != key) {
+        if(root.data < key) {
+            root = root.right;
+        } else {
+            root = root.left;
+        }
+    }
+    return root;
+}
+#+END_SRC
+*** Min and Max
+Due to the sorted nature of binary search trees we can find minimum and maximum values fairly easily.
+**** Minimum
+#+BEGIN_SRC java
+Node getMinimum(Node root) {
+    while(root.left != null) {
+        root = root.left;
+    }
+    return root;
+}
+#+END_SRC
+**** Maximum
+#+BEGIN_SRC java
+Node getMaximum(Node root) {
+    while(root.right != null) {
+        root = root.right;
+    }
+    return root;
+}
+#+END_SRC
+Although the Min and Max operations are fairly straightforward implementations they are useful in finding predecessors or sucessors for nodes.
+*** Successor and Predecessors
+**** Successor
+If all keys in a tree are distinct, the successor of a node x is the node with the smallest key greater than x. The structure of a binary search tree allows us to determine the succssor of a node without even comparing the keys.
+
+There are two ways to find the successor for a node depending on memory.
+***** If node has parent attribute
+If the node has a parent attribute the implementation is straightforward in that we need to perform two checks. If the node has a right child, we call getMinimum on the right child and return the result.
+
+If the node does not have a right child, we walk up the tree until we reach an ancestor that has the node we called on as a left subtree.
+#+BEGIN_SRC java
+Node getSuccessor(Node x) {
+    if(x.right != null) {
+        return getMinimum(x.right);
+    } else {
+        Node y = x.parent;
+        while(y != null && x == y.right) {
+            x = y;
+            y = y.parent;
+        }
+        return y;
+    }
+}
+#+END_SRC
+***** If the node does not have a parent attribute
+If the node does not have a parent attribute we need to be a little bit more clever. What we do instead is pass three parameters into a function. One the root of the tree, one the target, and the last a null value that we will use to store candidates for successors.
+
+If the data at root is equal to the key of the node we want to find the successor and it has a right child we call getMinimum and return its value.
+
+If the data at root is less than the key we recurse leftwards such that root <-- root.left and successor <-- root.
+
+If the data at root is greater than the key we recurse righwards such that root <-- root.right. However we do not reassign successor due to the assignment violating the principle that a successor node is larger than the node we have called it on.
+
+#+BEGIN_SRC java
+Node getSuccessor(Node root, Node succ, int key) {
+    if(root == null) {
+        return null;
+    }
+
+    if(root.data == key) {
+        if(root.right != null) {
+            return getMinimum(root.right);
+        }
+    } else if(key < root.data) {
+        succ = root;
+        return getSuccessor(root.left, succ, key);
+    } else {
+        return getSuccessor(root.right, succ, key);
+    }
+
+    return succ;
+}
+#+END_SRC
+*** Thoughts on Trees
+Take note that of the two operations we have already looked at we are able to use both iterative and recursive implementations. This is due to the recursive nature of the data structure.
