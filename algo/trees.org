@@ -1,4 +1,4 @@
-#+TITLE: Trees
+#+TITLE: Tres
 #+DESCRIPTION: Notes on trees/tree problems
 
 * Algo Notes
@@ -158,3 +158,58 @@ Node getSuccessor(Node root, Node succ, int key) {
 #+END_SRC
 *** Thoughts on Trees
 Take note that of the two operations we have already looked at we are able to use both iterative and recursive implementations. This is due to the recursive nature of the data structure.
+*** Exercises
+**** 12.2.1 was skipped due to needing the answer to be drawn
+**** 12.2.2 Write recursive versions of TREE-MINIMUM and TREE-MAXIMUM
+#+BEGIN_SRC java
+Node treeMinimum(Node root) {
+    if(root.left == null) {
+        return root;
+    }
+    return treeMinimum(root.left);
+}
+
+Node treeMaximum(Node root) {
+    if(root.right == null) {
+        return root;
+    }
+    return treeMaximum(root.right);
+}
+#+END_SRC
+**** 12.2.3 Write the TREE-PREDECESSOR procedure
+Assuming that we have a parent attribute in the node
+#+BEGIN_SRC java
+Node treePredecessor(Node x) {
+    if(x.left != null) {
+        return getMaximum(x.left);
+    } else {
+        Node y = x.parent;
+        while(y != null && x == y.left) {
+            x = y;
+            y = y.parent;
+        }
+        return y;
+    }
+}
+#+END_SRC
+
+If we don't have access to a parent attribute we do the same as sucessor implementation
+#+BEGIN_SRC java
+Node treePredecessor(Node root, Node pred, int key) {
+    if(root == null) {
+        return null;
+    }
+
+    if(root.data == key) {
+        if(root.left != null) {
+            return getMaximum(root.left);
+        }
+    } else if(key < root.data) {
+        return treePredecessor(root.left, pred, key);
+    } else {
+        pred = root;
+        return treePredecessor(root.right, pred, key);
+    }
+    return pred;
+}
+#+END_SRC
