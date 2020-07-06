@@ -183,6 +183,78 @@ void TreeInsert(Node root, Node insert) {
     }
 }
 #+END_SRC
+**** Deletion
+The overall strategy for deleting a node z from a binary search tree T has three basic cases.
+***** If z has no children
+If we have a parent attribute in the node class, we simply modify z.parent such that it no longer points to z. If z does not have a parent attribute then we iterate through the tree with two pointers, one acting as a parent pointer the other acting as the key pointer. When we find the node to be deleted we simply set the parent pointer such that it no longer points to z.
+***** If z has one child
+Begin with finding the child node z. Since z only has one child we need to simply remove it and append z.child to the parent pointer.
+***** If z has two children
+If z has two children it is a little more complicated. We begin with finding the in-order successor. Storing the inorder successor, we then recursively delete it from the tree, replacing the current pointer with the value of the successor.
+****** Why we use in-order successor
+We do not need to necessarily use the in-order succesor or the in-order predecessor as either one will suffice. What is important is that we find a node that is suitable to preserve the order of the binary search tree.
+
+The only two nodes that can replace a node with two children is either the predecessor or successor.
+***** Implmenetation
+#+BEGIN_SRC java
+Node deleteNode(Node root, int key) {
+    Node parent = null;
+    Node curr = root;
+
+    // Search for the key and set the parent pointer
+    while(curr != null && curr.data != key) {
+        parent = curr;
+        if(key < curr.data) {
+            curr = curr.left;
+        } else {
+            curr = curr.right;
+        }
+    }
+
+    // If the key is not in the tree just return.
+    if(curr == null) {
+        return root;
+    }
+
+    // If node to be deleted has no children
+    if(curr.left == null && curr.right == null) {
+        if(curr != root ){
+            if(parent.left == curr) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+        } else {
+            root = null;
+        }
+    }
+
+    // If the node to be deleted has two children
+    else if(curr.left != null && curr.right != null) {
+        Node successor = getSuccessor(root, null, curr.data);
+        int val = successor.data;
+        delete(root, successor.data);
+        curr.data = val;
+    }
+
+    // If the node to be deleted has one child
+    else {
+        // Check to see which child it is
+        Node child = (curr.left != null) ? curr.left : curr.right;
+        if(curr != root) {
+            if(curr == parent.left) {
+                parent.left = child;
+            } else {
+                parent.right = child;
+            }
+        } else {
+            root = child;
+        }
+    }
+    return root;
+}
+#+END_SRC
+
 *** Thoughts on Trees
 Take note that of the two operations we have already looked at we are able to use both iterative and recursive implementations. This is due to the recursive nature of the data structure.
 *** Exercises
