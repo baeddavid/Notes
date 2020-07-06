@@ -1,5 +1,5 @@
-#+TITLE: Tres
-#+DESCRIPTION: Notes on trees/tree problems
+#+TITLE: Algorithms
+#+DESCRIPTION: Notes on algorithms and my pseudocodes for exercises
 
 * Algo Notes
 ** Trees
@@ -312,3 +312,34 @@ Node treePredecessor(Node root, Node pred, int key) {
     return pred;
 }
 #+END_SRC
+**** 12.2.5 Show that if a node in a binary search tree has two children then its successor has no left child and it predecessor has no right child.
+Assume the we are operating on a node z which has two children. If we are to find the successor i.e. the smallest node that is larger than z, we must traverse down the left subtree for z.right. The successor is the last node in this left subtree. It cannot have a left child, as that would imply that the node we are currently on is not in fact the successor as there is another node that is smaller, but greater than z.
+
+The same logic applies to the predecessor for z. The predecessor is the largest node smaller than it. We can acheive this by traversing the right subtree of z.left. If the "predecessor" has a right child, than we node that the current node we are on is not the predecessor as there is another node that is larger it that is smaller than z.
+
+** Interview Problems
+*** Maximum Depth of Binary Tree
+ Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node dwon to the farthest leaf node.
+
+ Example: Given binary tree [3,9,20,null,null,15,7] return 3.
+
+ My base instinct is to create a variable called max that will store the height of a tree. I then perform an inorder traversal of the tree keeping track of the maximum depth seen so far. Although this solution would technically work, the implementation is long and potentially messy.
+
+ Instead there is a much more straight forward solution to this problem. Keeping in mind the recursive property of trees, we can call the function on both the left and right subtrees and then add one to the max of the two values.
+
+ #+BEGIN_SRC java
+int maxDepth(TreeNode root) {
+    // If the root is null return 0.
+    if(root == null) {
+        return 0;
+    }
+
+    // Height of the left subtree
+    int L = maxDepth(root.left);
+    // Height of the right subtree
+    int R = maxDepth(root.right);
+
+    // Return the max of the two subtrees + 1 to account for the root for the two subtrees.
+    return Math.max(L, R) + 1;
+}
+ #+END_SRC
