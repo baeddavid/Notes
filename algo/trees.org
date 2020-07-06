@@ -343,3 +343,37 @@ int maxDepth(TreeNode root) {
     return Math.max(L, R) + 1;
 }
  #+END_SRC
+*** Inorder Traversal
+Given a binary search tree perform an inorder traversal of the tree.
+Extra: Do it without recursion.
+
+The obvious way to do it with recursion is to check if the current treeNode is null or not.
+#+BEGIN_SRC java
+void inOrder(TreeNode root) {
+    if(root != null) {
+        inOrder(root.left);
+        System.out.print(root.data);
+        inOrder(root.right);
+    }
+}
+#+END_SRC
+
+Performing an iterative traversal is a little biut more complicated. When looking at how the inorder traversal walks through a tree you will note that after going down the left most sub tree and printing the left most leaf, we then walk back up the tree. When we walk back up the tree, we check if the treeNode has a right child; if it does we begin traversing this subtree as well. What you will notice is that this is somewhat similar to how a stack works, we use the last node we have, then go back up the tree or "pop" it off the stack.
+
+#+BEGIN_SRC java
+void inOrder(TreeNode root) {
+    Stack <TreeNode> s = new Stack <>();
+    TreeNode current = root;
+    s.push(root);
+
+    while(current != null || !s.isEmpty()) {
+        while(currnet != null) {
+            current = current.left;
+            s.push(current);
+        }
+        current = s.pop();
+        System.out.print(s.data);
+        current = current.right;
+    }
+}
+#+END_SRC
