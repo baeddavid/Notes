@@ -362,6 +362,14 @@ void insert(TreeNode root, TreeNode parent, int data) {
     }
 }
  #+END_SRC
+**** 12.3.2 Suppose that we construct a binary search tree by repeatedly inserting distinct values into the tree. Argue that the number of nodes examined in searching for a value in the tree is one plus the number of nodes examined when the value was first inserted into the tree
+As mentioned in the previous answer, the TREE-INSERTION method is a modified implementation of TREE-SEARCH. Because binary search trees are sorted, inserting an element requires us to search for the correct position to insert the new node.
+
+For example given a tree [6,4,12] and we wish to insert the value 5 we must first search for the correct position. Inserting it into tree gives us [6,4,12,null,5] with two comparisons --> 5 < 12 and 5 > 4.
+
+Searching for the value 5 in the tree now requires three comparisons, 5 < 12, 5 > 4, 5 = 5. Why is the number of nodes examined in search for a value one plus the nuymber of nodes examined when it was first inserted?
+
+This is because of the sorted anture of the tree. When we insert a node z into the tree, say we perform x comparisons to find the correct position. Searching for z in the tree immediately after it was inserted into the tree is now x + 1 comparison.
 ** Interview Problems
 *** Maximum Depth of Binary Tree
  Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node dwon to the farthest leaf node.
