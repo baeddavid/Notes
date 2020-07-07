@@ -316,7 +316,52 @@ Node treePredecessor(Node root, Node pred, int key) {
 Assume the we are operating on a node z which has two children. If we are to find the successor i.e. the smallest node that is larger than z, we must traverse down the left subtree for z.right. The successor is the last node in this left subtree. It cannot have a left child, as that would imply that the node we are currently on is not in fact the successor as there is another node that is smaller, but greater than z.
 
 The same logic applies to the predecessor for z. The predecessor is the largest node smaller than it. We can acheive this by traversing the right subtree of z.left. If the "predecessor" has a right child, than we node that the current node we are on is not the predecessor as there is another node that is larger it that is smaller than z.
+**** 12.3.1 Give a recursive version of the TREE-INSERT procedure.
+The iterative tree insert procedure is simply a modified implementation of the TREE-SEARCH algorithm. Looking at the iterative tree insert implementation, the first step we do is search for the appropriate position of the node.
 
+ #+BEGIN_SRC java
+void insert(int data) {
+    // Assuming root is a class variable
+    TreeNode current = root;
+    TreeNode parent = null;
+    while(current != null) {
+        if(data < current.data){
+            parent = current;
+            current = current.left;
+        } else {
+            parent = current;
+            current = current.right;
+        }
+    }
+    if(parent.data > data) {
+        parent.left = new TreeNode(data);
+    } else {
+        parent.right = new TreeNode(data);
+    }
+}
+ #+END_SRC
+
+
+ A recursive implementation of the insert method would change the while loop into a recursive search.
+ #+BEGIN_SRC java
+void insert(TreeNode root, TreeNode parent, int data) {
+    // If the root is null we can insert data into tree.
+    if(root == null) {
+        if(parent.data > data) {
+            parent.left = new TreeNode(data);
+        } else {
+            parent.right = new TreeNode(data);
+        }
+    }
+
+    // If the root is not null we set up our recursion
+    if(data < root.data) {
+        return insert(root.left, root, data);
+    } else {
+        return insert(root.right, root, data);
+    }
+}
+ #+END_SRC
 ** Interview Problems
 *** Maximum Depth of Binary Tree
  Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node dwon to the farthest leaf node.
