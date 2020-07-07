@@ -370,6 +370,11 @@ For example given a tree [6,4,12] and we wish to insert the value 5 we must firs
 Searching for the value 5 in the tree now requires three comparisons, 5 < 12, 5 > 4, 5 = 5. Why is the number of nodes examined in search for a value one plus the nuymber of nodes examined when it was first inserted?
 
 This is because of the sorted anture of the tree. When we insert a node z into the tree, say we perform x comparisons to find the correct position. Searching for z in the tree immediately after it was inserted into the tree is now x + 1 comparison.
+**** 12.3.3 We can sort a given set of n numbers by first building a binary search tree containing these numbers and printing the numbers by an inorder tree walk. What are the worst case and best case running times for this sorting algorithm?
+The worst case running time for sorting an array using a binary search tree is O(n^2). This occurs when the input array is sorther either ascending or descending. This is because we must traverse the entire tree to append any element from an array A.
+
+The best case is when the tree is balanced. Insertion into a balanced tree is a O(log n) operation since we only need to traverse a single subtree at each comparison. This means that given a perfectly balanced input, sorting the array would take O(n log n).
+
 ** Interview Problems
 *** Maximum Depth of Binary Tree
  Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node dwon to the farthest leaf node.
