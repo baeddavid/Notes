@@ -510,3 +510,61 @@ Node mergeList(Node L1, node L2) {
     return newHead.next;
 }
 #+END_SRC
+*** Reverse a Single Sublist
+Write a program which takes a singly linked list L and two integers s and f as arguments, and reverses the order of the nodes from the sth node to fth node, inclusive. The numbering begins at 1. Do not allocate additonal nodes.
+
+There are two ways to solve this problem that rely on the same premise. If we are to reverse a linked list from the sth node to the fth node we need to reach that node first.
+
+#+BEGIN_SRC java
+Node current = head;
+int counter = 1;
+while(counter++ < s) {
+    current = current.next;
+}
+#+END_SRC
+
+Once we have found the node to begin reversing from, the variation in how we implement our answer shows itself.
+The brute force method would be to keep track of the previous node as well when we find the node to begin reversing. This is so that we have an idea of where our new "subhead" is going to be.
+
+We then begin reversing how you would normally reverse a linked list, except we stop until the counter is at f. We also assign a pointer, let's call it newSubHead, to current.
+#+BEGIN_SRC java
+while(counter++ < f) {
+    Node next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+}
+#+END_SRC
+
+After reversing the sub list we have two pointers. Current which is now the new tail of the list and newSubHead which is the head of the reversed sublist. We now append the pointers accordingly. The prev pointer from before is now set next to newSubHead. Current which is our new tail, has its next value set to the end of the list.
+
+The implementation is below
+#+BEGIN_SRC java
+Node reverseSublist(Node head, int s, int f) {
+    if(head == null) return null;
+    Node curr = head, prev = null;
+    int counter = 1;
+
+    while(counter++ < s) {
+        prev = curr;
+        curr = curr.next;
+    }
+
+    Node tail = curr, continueNode = prev, next = null;
+    while(counter++ < f) {
+        next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    if(continueNode != null){
+        continueNode.next = prev;
+    } else {
+        head = prev;
+    }
+
+    tail.next = curr;
+    return head;
+}
+#+END_SRC
