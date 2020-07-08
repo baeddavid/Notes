@@ -485,3 +485,28 @@ int rangeSum(TreeNode root, int L, int R) {
     return sum;
 }
 #+END_SRC
+*** Merge Two Sorted Lists
+Consider two singly linked lists in which each node holds a number. Assume the lists are sorted. The merge of the two lists is a list consisting of the nodes of the two lists in which numbers appear in ascending order.
+
+Similar to how we merge two sorted arrays, we use two pointers one for the L1 (list 1) and L2 (list 2). We iterate through the lists. We take the node with the smaller value and advance the pointer up by one. When we have reached the end of one list we append the remaining list to the end.
+
+#+BEGIN_SRC java
+Node mergeList(Node L1, node L2) {
+    Node newHead = new Node(0);
+    Node newCurr = newHead, curr1 = L1, curr2 = L2;
+
+    while(curr1 != null && curr2 != null) {
+        if(curr1.data < curr2.data) {
+            newCurr.next = curr1;
+            curr1 = curr1.next;
+        } else {
+            newCurr.next = curr2;
+            curr2 = curr2.next;
+        }
+        newCurr = newCurr.next;
+    }
+
+    newCurr.next = curr1 == null ? curr2 : curr1;
+    return newHead.next;
+}
+#+END_SRC
