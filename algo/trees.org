@@ -554,7 +554,7 @@ tail.next = curr;
 #+END_SRC
 
 The implementation is below
-,#+BEGIN_SRC java
+#+BEGIN_SRC java
 Node reverseSublist(Node head, int s, int f) {
     if(head == null) return null;
     Node curr = head, prev = null;
@@ -581,5 +581,39 @@ Node reverseSublist(Node head, int s, int f) {
 
     tail.next = curr;
     return head;
+}
+#+END_SRC
+
+There is another implementation that is more elegant than the previous solution. The idea is to take advantage of the how reversing a list works. For example let's say that we are given the list:
+[head] -> [1: next] -> [2:next] -> [3:next] -> [4:tail] -> null
+
+If we are to reverse the list traditionally we would have an iterator, usuall called current, and a previous pointer and swap pointers until the list is reversed. However another way to reverse the list is to swap iterator pointers and next pointers. We need a dummy node, just incase the reversal of the list includes the first node of the list. Let's reverse the list from the example.
+
+[head] -> [0:next:Dummy] -> [1:next:Iterator] -> [2:next:Next] -> [3:next] -> [4:tail] -> null
+Swapping iterator's next pointer so that it points to Next's next so that we now have [1:next:Iterator] -> [3:next]. We then set Next's next pointer to Dummy's next [2:next:Next] -> [1:next:Iterator]. Finally we swap Dummy's next pointer so that it points to Next. [0:next:Dummy] -> [2:next:Next]. The list now looks like this: [head] -> [0:next:Dummy] -> [2:next:Next] -> [1:next:Iterator] -> [3:next] -> [4:tail] -> null.
+
+What we have done is moved the iterator forward by putting the node next to the iterator to the start of the sublist. The next iteration of the reversal would see node 3 moved to the front such that the list's values read 3 -> 2 -> 1 -> 4. Implementing this is not very difficult.
+
+#+BEGIN_SRC java
+Node reverseSublist(Node head, int s, int f) {
+    if(head == null) return null;
+    Node dummyHead = new Node(0);
+    dummyHead.next = head;
+    head = dummyHead;
+    Node dummyCurr = dummyHead;
+
+    int k = 1;
+    while(k++ < s) {
+        dummyCurr = dummyCurr.next;
+    }
+
+    Node Iterator = dummyCurr.next;
+    while(s++ < f) {
+        Node Next = Iterator.next;
+        Iterator.next = Next.next;
+        Next.next = dummyCurr.next;
+        dummyCurr.next = Next;
+    }
+    return dummyHead.next;
 }
 #+END_SRC
