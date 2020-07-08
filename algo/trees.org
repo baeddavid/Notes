@@ -526,7 +526,7 @@ while(counter++ < s) {
 Once we have found the node to begin reversing from, the variation in how we implement our answer shows itself.
 The brute force method would be to keep track of the previous node as well when we find the node to begin reversing. This is so that we have an idea of where our new "subhead" is going to be.
 
-We then begin reversing how you would normally reverse a linked list, except we stop until the counter is at f. We also assign a pointer, let's call it newSubHead, to current.
+We then begin reversing how you would normally reverse a linked list, except we stop until the counter is at f. We also assign a pointer, let's call it continueNode, to prev. We also assign a variable called tail to curr, as this will be where our list ends since it will be reversed.
 #+BEGIN_SRC java
 while(counter++ < f) {
     Node next = current.next;
@@ -536,10 +536,25 @@ while(counter++ < f) {
 }
 #+END_SRC
 
-After reversing the sub list we have two pointers. Current which is now the new tail of the list and newSubHead which is the head of the reversed sublist. We now append the pointers accordingly. The prev pointer from before is now set next to newSubHead. Current which is our new tail, has its next value set to the end of the list.
+
+After reversing the sublist we have two pointers: continueNode which points to the "subHead" and tail which is the end of the reversed sublist. Current is also at node after f, or f + 1. We now simply append pointers such that the list is correctly connected.
+
+#+BEGIN_SRC java
+// If the continueNode is not null then we set its next node to prev which is the new subHead.
+if(continueNode != null) {
+    continueNode.next = prev;
+}
+// If continueNode is null then that meanst the head of the list was also reversed.
+else {
+    head = prev;
+}
+
+// Append the end of the reversed sublist to f + 1.
+tail.next = curr;
+#+END_SRC
 
 The implementation is below
-#+BEGIN_SRC java
+,#+BEGIN_SRC java
 Node reverseSublist(Node head, int s, int f) {
     if(head == null) return null;
     Node curr = head, prev = null;
