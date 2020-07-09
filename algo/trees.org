@@ -623,3 +623,34 @@ Write a program that takes the head of a singly linked list and returns null if 
 Detecting a cycle in a linked list is fairly straight forward. Using floyd's algorithm we can determine if a list has a cycle in linear time. The difficulty of this problem lies in how we determine the starting node of the cycle. There are two ways we can determine the start of the cycle.
 
 The first way is to find the size of the cycle. This can be done by keeping one of the pointers in the cycle and moving the other pointer counting each unique node it encounters until it finds the static pointer again. Once we have found the size of the cycle, we set one of the pointers to the head and move it forward the same value as the size of the loop. We then initialize a pointer to the head of the list again and continue to move both pointers until they land on each other. When they intersect that is the node that is the start of the cycle.
+
+#+BEGIN_SRC java
+Node getLoop(Node head) {
+    Node slow = head, fast = head;
+    while(fast != null&& fast.next != null) {
+        fast = fast.next.next;
+        slow = slow.next;
+        if(slow == fast) {
+            int count = 1;
+            slow = slow.next;
+            while(slow != fast) {
+                slow = slow.next;
+            }
+
+            slow = head;
+            fast = head;
+            while(count-- > 0) {
+                slow = slow.next;
+            }
+
+            while(slow != fast) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+
+            return slow;
+        }
+    }
+    return null;
+}
+#+END_SRC
