@@ -654,3 +654,39 @@ Node getLoop(Node head) {
     return null;
 }
 #+END_SRC
+*** Test for overlapping lists
+Given two singly linked lists there may be list nodes that are common to both. Write a program that takes two cycle-free singly linked lists, and determines if there exists a node that is common to both lists.
+
+There are two ways to solve this problem. The first way is to brute force the problem. We create a hashmap and begin pushing nodes from one list into the map. We then iterate through the second list, checking at every node if it is present in the hashmap. If it is present, we return that node. This is a O(nk) and O(n) solution, where n is the length of one list and k is the length of the second list.
+
+A more elegant solution to this problem is to get the length of both lists. After getting the lengths of both lists, we initialize a pointer to the start of the longer list and continue iterating until the difference of the lengths for both lists is 0. We then initialize a pointer to the other list and iterate both pointers until they either intersect or terminate at null. If they intersect that node is the overlapping node, of they termiante at null there is no overlap.
+
+#+BEGIN_SRC java
+Node overlappingLists(Node A, Node B) {
+    int countA = 0, countB = 0;
+    Node currA = A, currB = B;
+
+    while(currA != null) {
+        currA = currA.next;
+        countA++;
+    }
+
+    while(currB != null) {
+        currB = currB.next;
+        countB++;
+    }
+
+    Node fast = countA > countB ? A : B;
+    Node slow = countB > countA ? A : B;
+    int longerList = count > countB ? A : B;
+
+    while(fast != slow && fast != null && slow != null) {
+        fast = fast.next;
+        slow = slow.next;
+        if(fast == slow) {
+            return slow;
+        }
+    }
+    return null;
+}
+#+END_SRC
