@@ -617,3 +617,9 @@ Node reverseSublist(Node head, int s, int f) {
     return dummyHead.next;
 }
 #+END_SRC
+*** Test for Cyclicity
+Write a program that takes the head of a singly linked list and returns null if there does not exist a cycle, anda  node at the start of the cycle, if a cycle is present.
+
+Detecting a cycle in a linked list is fairly straight forward. Using floyd's algorithm we can determine if a list has a cycle in linear time. The difficulty of this problem lies in how we determine the starting node of the cycle. There are two ways we can determine the start of the cycle.
+
+The first way is to find the size of the cycle. This can be done by keeping one of the pointers in the cycle and moving the other pointer counting each unique node it encounters until it finds the static pointer again. Once we have found the size of the cycle, we set one of the pointers to the head and move it forward the same value as the size of the loop. We then initialize a pointer to the head of the list again and continue to move both pointers until they land on each other. When they intersect that is the node that is the start of the cycle.
