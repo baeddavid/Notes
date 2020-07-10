@@ -750,3 +750,23 @@ Node kthLast(Node head, int k) {
     return slow;
 }
 #+END_SRC
+*** Remove Duplicates from a Sorted List
+Write a program that takes as input a singly linked list of integers in sorted order, and removes duplicates from it.
+
+There are two ways to solve this problem. The first way is to create a hashset and then push all values from the list into the list. We then create a new list and test if a value has already been added to the set. If it has not we append that node to the new list. A better way to do this is to use a fast pointer that begins at every unique value.
+
+As we move forward with the fast pointer we continue as long as the value matches the slow pointer. When we encounter a node that is not the same as the slow pointer, we append the slow.next to fast.
+
+#+BEGIN_SRC java
+void deleteDuplicates(Node head) {
+    Node curr = head;
+    while(curr != null) {
+        Node iter = curr.next;
+        while(curr.data != iter.data && iter != null) {
+            iter = iter.next;
+        }
+        curr.next = iter;
+        curr = iter;
+    }
+}
+#+END_SRC
