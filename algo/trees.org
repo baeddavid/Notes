@@ -690,3 +690,22 @@ Node overlappingLists(Node A, Node B) {
     return null;
 }
 #+END_SRC
+*** Test for overlapping lists - lists my have cycles
+Solve the previous problem, with the addition that a list or bot lists may have a cycle. You may return any node that appears in their overlap.
+
+Let us take a moment to consider a case where there is an overlap. If there is to be an overlap for these two lists where a cycle may be present, both lists must have a cycle. We start with a check to see if both lists have a cycle. If either list does not have a cycle, we can return null as there is no overlap. If both lists do have a cycle, if there is an overlap, the cycle must be identical.
+
+We can return a node in the overlap by setting one of the pointers back to the start of either list. We then traverse the node until we encounter
+*** Delete A Node from a Singly Linked List
+Write a program that which deletes a node in a singly linked list. The input node is guranteed not to be the tail node.
+
+The only input we are given is the node that we must delete. Due to the fact that it is singly linked, we do not have access to a previous pointer to remove the current node from the list. What we can do is copy the next node's data into the current node. After copying the data over, we set the next pointer to the nodes next's next pointer. We must then set next's next pointer to null to disconnect it from the list to free up memory.
+
+#+BEGIN_SRC java
+void deleteNode(Node delete) {
+    delete.data = delete.next.data;
+    Node next = delete.next;
+    delete.next = next.next;
+    next.next = null;
+}
+#+END_SRC
