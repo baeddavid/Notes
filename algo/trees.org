@@ -709,3 +709,44 @@ void deleteNode(Node delete) {
     next.next = null;
 }
 #+END_SRC
+*** Remove the kth last element from a list
+Given a singly linked list and an integer k, write a program to remove the kth last element. Your algorithm cannot use more than a few words of storage, regardless of the length of the list.
+
+There are two different algorithms we can implement here. The first way is to simply iterate through the list to get the length of the list. After getting the length of the list we get the difference of the length and k. Then iterate through the list (length - k) times.
+
+The second way is to take advantage of the fact that we can create a buffer. Initialize two pointers at the head of the list. Iterate one of the pointers k times. After iterating that pointer forward k times, begin iterating both pointers one at a time until the fast pointer reaches the end of the list. Return the slow pointer.
+
+Implementation 1
+#+BEGIN_SRC java
+Node kthLast(Node head, int k) {
+    Node slow = head;
+    int length = 0;
+    while(slow != null) {
+        length++;
+        slow = slow.next;
+    }
+
+    slow = head;
+    while((length - k)-- > 0) {
+        slow = slow.next;
+    }
+    return slow;
+}
+#+END_SRC
+
+Implementation 2
+#+BEGIN_SRC java
+Node kthLast(Node head, int k) {
+    Node slow = head, fast = head;
+    while(k-- > 0) {
+        fast = fast.next;
+    }
+
+    while(fast != null) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+
+    return slow;
+}
+#+END_SRC
