@@ -770,3 +770,48 @@ void deleteDuplicates(Node head) {
     }
 }
 #+END_SRC
+*** Implement a Cyclic Right Shift for Singly Linked lists
+Write a program that takes as input a singly linked list and a nonnegative integer k, and returns the list cyclically shifted to the right by k.
+
+There are two ways to implement a solution for this problem. The first way is to write a subroutine that transplants the tail to the head. We then call that subroutine k times.
+
+The second way is to fing the kth node from the end and k-1 node from the end. Since the kth node from the end will be our new head, we disconnect it from our list, and then append the tail to our head. We then return the kth node as our new head.
+
+#+BEGIN_SRC java
+Node cyclicShift(Node head, int k) {
+    while(k-- > 0) {
+        head = transplantTail(head);
+    }
+    return head;
+}
+
+Node transplantTail(Node head) {
+    Node curr = head, prev = null;;
+    while(curr.next != null) {
+        prev = curr;
+        curr = curr.next;
+    }
+
+    prev.next = null;
+    curr.next = head;
+    return curr;
+}
+#+END_SRC
+
+#+BEGIN_SRC java
+Node cyclucShift(Node head, int k) {
+    Node slow = head, fast = head;
+    while(k-- > 0) {
+        fast = fast.next;
+    }
+
+    while(fast.next != null) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+
+    fast.next = head;
+    slow.next = null;
+    return head;
+}
+#+END_SRC
