@@ -815,3 +815,54 @@ Node cyclucShift(Node head, int k) {
     return head;
 }
 #+END_SRC
+*** Implement Even-Odd Merge
+Consider a singly linked list whose nodes are numbered starting at 0. Define the even-odd merge of the list to be the list consisting of the even-numbered nodes followed by the odd-numbered nodes. Write a program that computes the even-odd merge.
+
+There are two seperate implementations that immediately come to mind. The first implementation is a brute force solution where we create two seperate lists. This is an O(n) time and memory solution.
+
+The better solution is to just redircet the pointers to save memory.
+
+#+BEGIN_SRC java
+Node evenOdd(Node head) {
+    Node evenHead = new Node(-1);
+    Node oddHead = new Node(-1);
+
+    Node curr = head, evenCurr = evenHead, oddCurr = oddHead;
+    while(curr != null) {
+        if(curr.data % 2 == 0) {
+            evenCurr.next = new Node(curr.data);
+            evenCurr = evenCurr.next;
+        } else {
+            oddCurr.next = new Node(odd.data);
+            oddCurr = oddCurr.next;
+        }
+        curr = curr.next;
+    }
+
+    evenCurr.next = oddHead.next;
+    return evenHead.next;
+}
+#+END_SRC
+
+#+BEGIN_SRC java
+Node evenOdd(Node head) {
+    Node evenHead = new Node(-1);
+    Node evenHead = new Node(-1);
+
+    Node curr = head, evenCurr = evenHead, oddCurr = oddHead;
+    while(curr != null) {
+        Node Next = curr.next;
+        if(curr.data % 2 == 0) {
+            evenCurr.next = curr;
+            evenCurr = evenCurr.next;
+        } else {
+            oddCurr.next = curr;
+            oddCurr = oddCurr.next;
+        }
+        curr.next = null;
+        curr = Next;
+    }
+    evenCurr.next = oddHead.next;
+    return evenHead.next;
+}
+#+END_SRC
