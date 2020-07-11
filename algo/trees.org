@@ -866,3 +866,27 @@ Node evenOdd(Node head) {
     return evenHead.next;
 }
 #+END_SRC
+*** Test Whether a Singly Linked List is Palindromic
+Write a program that tests whether a singly linked list is palindromic.
+
+There are two ways to solve this problem. The first ways it to brute force make comparisons by iterative twice for every node. Compare the first node to the last node. First + 1 to the Last - 1 node and so on. A more elegant solution would be to reverse the list from the middle of the list and make comparisons. Irregardless of whether the lists are equal or not, we then unreverse the sublist and reappend it to the original list.
+
+#+BEGIN_SRC java
+boolean isListPalindrome(Node head) {
+    Node slow = head, fast = head;
+    while(fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    Node firstHalf = head, secondHalf = reverseList(slow);
+    while(secondHalf != null && firstHalf != null) {
+        if(secondHalf.data != firstHalf.data) {
+            return false;
+        }
+        secondHalf = secondHalf.next;
+        firstHalf = firstHalf.next;
+    }
+    return true;
+}
+#+END_SRC
