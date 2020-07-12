@@ -890,3 +890,38 @@ boolean isListPalindrome(Node head) {
     return true;
 }
 #+END_SRC
+*** Implement List Pivoting
+For any integer K, the pivot of a list of integers with respect to k is that list with its node reordered so that all nodes containing keys less than k appear before nodes containing k, and all nodes containing keys greater than k appear after the nodes containing k. Implement a function which takes as input a singly linked list and an integer k and performs a pivot of the list with respect to k.
+
+
+There are two implementations for this problem. The first implementation is to create three seperate lists. Iterate through the original list and create new nodes appending them to the appropriate lists based on if the node is less than k, equal to k, or greater than k. A better implementation follows a similar method to the even-odd merge solution. Instead of creating new nodes, we create three dummy nodes and reorganize pointers such that we create three sublists that satisfy the conditions for k in one pass. We then append them together and return the head of the list.
+
+#+BEGIN_SRC java
+Node listPivoting(Node head, int k) {
+    Node lessThan = new Node(-1);
+    Node equalTo = new Node(-1);
+    Node greaterThan = new Node(-1);
+
+    Node lessPointer = lessThan;
+    Node equalPointer = equalTo;
+    Node greaterPointer = greaterThan;
+
+    Node iterator = head;
+    while(iterator != null) {
+        if(iterator.data < k) {
+           lessPointer.next = iterator;
+           lessPointer = iterator;
+        } else if(iterator.data == k){
+            equalPointer.next = iterator;
+            equalPointer = iterator;
+        } else {
+            greaterPointer.next = iterator;
+            greaterPoint = iterator;
+        }
+        iterator = iterator.next;
+    }
+    lessPointer.next = equalTo.next;
+    equalPointer.next = greaterThan.next;
+    return lessThan.next;
+}
+#+END_SRC
