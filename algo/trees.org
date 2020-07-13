@@ -1,11 +1,22 @@
 #+TITLE: Algorithms
 #+DESCRIPTION: Notes on algorithms and my pseudocodes for exercises
-
 * Algo Notes
 ** Trees
-*** Traversals
-**** Three main ways to traverse a tree
-***** Inorder Traversal
+*** Binary Tree
+Formally, a binary tree is either empty, or a root node r together with a left binary tree and a right binary tree. The subtrees themselves are binary trees. The left binary tree is sometimes referred to as the left subtree of the root, and the right binary tree is referred to as the right subtree of the root.
+
+#+BEGIN_SRC java
+public class BinaryTreeNode <T> extends TreeLike<T, BinaryTreeNode<T>> {
+    publc T data;
+    public BinaryTreeNode <T> left, right;
+}
+#+END_SRC
+
+Each node except the root is itself the root of a left subtree or a right subtree. If l is the the root of p's left subtree, we will say l is the left child of p, and p is the parent of l; the notion of right child is similar.
+*** BST
+**** Traversals
+***** Three main ways to traverse a tree
+****** Inorder Traversal
 #+BEGIN_SRC java
 void inorder(Node root) {
     if(root != null) {
@@ -33,7 +44,7 @@ void inorder(Node root) {
     }
 }
 #+END_SRC
-***** Preorder Traversal
+****** Preorder Traversal
 #+BEGIN_SRC java
 void preorder(Node root) {
     if(root != null) {
@@ -43,7 +54,7 @@ void preorder(Node root) {
     }
 }
 #+END_SRC
-***** Postorder Traversal
+****** Postorder Traversal
 #+BEGIN_SRC java
 void postorder(Node root) {
     if(root != null) {
@@ -53,10 +64,10 @@ void postorder(Node root) {
     }
 }
 #+END_SRC
-*** Search
+**** Search
 Due to the nature of binary search trees, searching for an element is a fast operation taking only O(n log n) time.
 This too can be done either recursively or iteratively.
-**** Recursive
+***** Recursive
 #+BEGIN_SRC java
 Node search(Node root, int key) {
     if(root == null || key = root.data) {
@@ -70,7 +81,7 @@ Node search(Node root, int key) {
     }
 }
 #+END_SRC
-**** Iterative
+***** Iterative
 #+BEGIN_SRC java
 Node search(Node root, int key) {
     while(root != null && root.data != key) {
@@ -83,9 +94,9 @@ Node search(Node root, int key) {
     return root;
 }
 #+END_SRC
-*** Min and Max
+**** Min and Max
 Due to the sorted nature of binary search trees we can find minimum and maximum values fairly easily.
-**** Minimum
+***** Minimum
 #+BEGIN_SRC java
 Node getMinimum(Node root) {
     while(root.left != null) {
@@ -94,7 +105,7 @@ Node getMinimum(Node root) {
     return root;
 }
 #+END_SRC
-**** Maximum
+***** Maximum
 #+BEGIN_SRC java
 Node getMaximum(Node root) {
     while(root.right != null) {
@@ -104,12 +115,12 @@ Node getMaximum(Node root) {
 }
 #+END_SRC
 Although the Min and Max operations are fairly straightforward implementations they are useful in finding predecessors or sucessors for nodes.
-*** Successor and Predecessors
-**** Successor
+**** Successor and Predecessors
+***** Successor
 If all keys in a tree are distinct, the successor of a node x is the node with the smallest key greater than x. The structure of a binary search tree allows us to determine the succssor of a node without even comparing the keys.
 
 There are two ways to find the successor for a node depending on memory.
-***** If node has parent attribute
+****** If node has parent attribute
 If the node has a parent attribute the implementation is straightforward in that we need to perform two checks. If the node has a right child, we call getMinimum on the right child and return the result.
 
 If the node does not have a right child, we walk up the tree until we reach an ancestor that has the node we called on as a left subtree.
@@ -127,7 +138,7 @@ Node getSuccessor(Node x) {
     }
 }
 #+END_SRC
-***** If the node does not have a parent attribute
+****** If the node does not have a parent attribute
 If the node does not have a parent attribute we need to be a little bit more clever. What we do instead is pass three parameters into a function. One the root of the tree, one the target, and the last a null value that we will use to store candidates for successors.
 
 If the data at root is equal to the key of the node we want to find the successor and it has a right child we call getMinimum and return its value.
@@ -156,8 +167,8 @@ Node getSuccessor(Node root, Node succ, int key) {
     return succ;
 }
 #+END_SRC
-*** Insertion and Deletion
-**** Insertion
+**** Insertion and Deletion
+***** Insertion
 To insert a new value v into a binary search tree T, we use the procedure TREE-INSERT. The procedure takes a node z for which z.key = v, z.left = NIL, and z.right = NIL. It modifies T and some of the attributes of z in such a way that it inserts z into an appropriate position in the tree.
 
 #+BEGIN_SRC java
@@ -183,19 +194,19 @@ void TreeInsert(Node root, Node insert) {
     }
 }
 #+END_SRC
-**** Deletion
+***** Deletion
 The overall strategy for deleting a node z from a binary search tree T has three basic cases.
-***** If z has no children
+****** If z has no children
 If we have a parent attribute in the node class, we simply modify z.parent such that it no longer points to z. If z does not have a parent attribute then we iterate through the tree with two pointers, one acting as a parent pointer the other acting as the key pointer. When we find the node to be deleted we simply set the parent pointer such that it no longer points to z.
-***** If z has one child
+****** If z has one child
 Begin with finding the child node z. Since z only has one child we need to simply remove it and append z.child to the parent pointer.
-***** If z has two children
+****** If z has two children
 If z has two children it is a little more complicated. We begin with finding the in-order successor. Storing the inorder successor, we then recursively delete it from the tree, replacing the current pointer with the value of the successor.
-****** Why we use in-order successor
+******* Why we use in-order successor
 We do not need to necessarily use the in-order succesor or the in-order predecessor as either one will suffice. What is important is that we find a node that is suitable to preserve the order of the binary search tree.
 
 The only two nodes that can replace a node with two children is either the predecessor or successor.
-***** Implmenetation
+****** Implmenetation
 #+BEGIN_SRC java
 Node deleteNode(Node root, int key) {
     Node parent = null;
@@ -255,11 +266,11 @@ Node deleteNode(Node root, int key) {
 }
 #+END_SRC
 
-*** Thoughts on Trees
+**** Thoughts on Trees
 Take note that of the two operations we have already looked at we are able to use both iterative and recursive implementations. This is due to the recursive nature of the data structure.
-*** Exercises
-**** 12.2.1 was skipped due to needing the answer to be drawn
-**** 12.2.2 Write recursive versions of TREE-MINIMUM and TREE-MAXIMUM
+**** Exercises
+***** 12.2.1 was skipped due to needing the answer to be drawn
+***** 12.2.2 Write recursive versions of TREE-MINIMUM and TREE-MAXIMUM
 #+BEGIN_SRC java
 Node treeMinimum(Node root) {
     if(root.left == null) {
@@ -275,7 +286,7 @@ Node treeMaximum(Node root) {
     return treeMaximum(root.right);
 }
 #+END_SRC
-**** 12.2.3 Write the TREE-PREDECESSOR procedure
+***** 12.2.3 Write the TREE-PREDECESSOR procedure
 Assuming that we have a parent attribute in the node
 #+BEGIN_SRC java
 Node treePredecessor(Node x) {
@@ -312,11 +323,11 @@ Node treePredecessor(Node root, Node pred, int key) {
     return pred;
 }
 #+END_SRC
-**** 12.2.5 Show that if a node in a binary search tree has two children then its successor has no left child and it predecessor has no right child.
+***** 12.2.5 Show that if a node in a binary search tree has two children then its successor has no left child and it predecessor has no right child.
 Assume the we are operating on a node z which has two children. If we are to find the successor i.e. the smallest node that is larger than z, we must traverse down the left subtree for z.right. The successor is the last node in this left subtree. It cannot have a left child, as that would imply that the node we are currently on is not in fact the successor as there is another node that is smaller, but greater than z.
 
 The same logic applies to the predecessor for z. The predecessor is the largest node smaller than it. We can acheive this by traversing the right subtree of z.left. If the "predecessor" has a right child, than we node that the current node we are on is not the predecessor as there is another node that is larger it that is smaller than z.
-**** 12.3.1 Give a recursive version of the TREE-INSERT procedure.
+***** 12.3.1 Give a recursive version of the TREE-INSERT procedure.
 The iterative tree insert procedure is simply a modified implementation of the TREE-SEARCH algorithm. Looking at the iterative tree insert implementation, the first step we do is search for the appropriate position of the node.
 
  #+BEGIN_SRC java
@@ -362,7 +373,7 @@ void insert(TreeNode root, TreeNode parent, int data) {
     }
 }
  #+END_SRC
-**** 12.3.2 Suppose that we construct a binary search tree by repeatedly inserting distinct values into the tree. Argue that the number of nodes examined in searching for a value in the tree is one plus the number of nodes examined when the value was first inserted into the tree
+***** 12.3.2 Suppose that we construct a binary search tree by repeatedly inserting distinct values into the tree. Argue that the number of nodes examined in searching for a value in the tree is one plus the number of nodes examined when the value was first inserted into the tree
 As mentioned in the previous answer, the TREE-INSERTION method is a modified implementation of TREE-SEARCH. Because binary search trees are sorted, inserting an element requires us to search for the correct position to insert the new node.
 
 For example given a tree [6,4,12] and we wish to insert the value 5 we must first search for the correct position. Inserting it into tree gives us [6,4,12,null,5] with two comparisons --> 5 < 12 and 5 > 4.
@@ -370,7 +381,7 @@ For example given a tree [6,4,12] and we wish to insert the value 5 we must firs
 Searching for the value 5 in the tree now requires three comparisons, 5 < 12, 5 > 4, 5 = 5. Why is the number of nodes examined in search for a value one plus the nuymber of nodes examined when it was first inserted?
 
 This is because of the sorted anture of the tree. When we insert a node z into the tree, say we perform x comparisons to find the correct position. Searching for z in the tree immediately after it was inserted into the tree is now x + 1 comparison.
-**** 12.3.3 We can sort a given set of n numbers by first building a binary search tree containing these numbers and printing the numbers by an inorder tree walk. What are the worst case and best case running times for this sorting algorithm?
+***** 12.3.3 We can sort a given set of n numbers by first building a binary search tree containing these numbers and printing the numbers by an inorder tree walk. What are the worst case and best case running times for this sorting algorithm?
 The worst case running time for sorting an array using a binary search tree is O(n^2). This occurs when the input array is sorther either ascending or descending. This is because we must traverse the entire tree to append any element from an array A.
 
 The best case is when the tree is balanced. Insertion into a balanced tree is a O(log n) operation since we only need to traverse a single subtree at each comparison. This means that given a perfectly balanced input, sorting the array would take O(n log n).
@@ -923,5 +934,35 @@ Node listPivoting(Node head, int k) {
     lessPointer.next = equalTo.next;
     equalPointer.next = greaterThan.next;
     return lessThan.next;
+}
+#+END_SRC
+*** Test if a Binary Tree is Height-Balanced
+Write a program that takes as input the root of a binary tree and checks whether the tree is height-balanced. A height-balanced tree means that that the difference in the height of its left and right subtrees is at most one.
+
+The problem seems slightly intimidating until we look at the properties we can take advantage of. Essentially we are checking if the absolute difference of the heights of two trees is greater than 1. We can find the height of subtrees the same way we find the height of a tree. We recursively check for the height of a tree by performing a null check and then adding 1. The only difference is we are not returning the maximum depth of the tree.
+
+#+BEGIN_SRC java
+class BalancedTree {
+    boolean isBalanced = true;
+
+    public boolean isTreeBalanced(TreeNode root) {
+        helper(root);
+        return isBalanced;
+    }
+
+    public int helper(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+
+        int L = helper(root.left);
+        int R = helper(root.right);
+
+        if(Math.abs(L - R) > 1) {
+            isBalanced = false;
+        }
+
+        return Math.max(L, R) + 1;
+    }
 }
 #+END_SRC
