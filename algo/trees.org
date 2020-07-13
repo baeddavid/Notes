@@ -966,3 +966,24 @@ class BalancedTree {
     }
 }
 #+END_SRC
+*** Test if a Binary Tree is Symmetric
+A binary tree is symmetric if you can draw a vertical line through the root and then the left subtree is the mirror image of the right subtree. Write a program that checks whether a binary tree is symmetric.
+
+There are two things we need to check for a binary tree to be symmetric. Are the value of the nodes equal and are they mirrored. We can check if nodes are mirrored with a null check. We simply make recursive calls down the tree.
+
+#+BEGIN_SRC java
+boolean isTreeSymmetric(TreeNode root) {
+    if(root == null) {
+        return true;
+    }
+    return helper(root.left, root.right);
+}
+
+boolean helper(TreeNode L, TreeNode R) {
+    if(L == null && R == null) {
+        return true;
+    } else if(L != null && R != null) {
+        return L.data == R.data && helper(L.left, R.right) && helper(L.right, R.left);
+    }
+}
+#+END_SRC
