@@ -987,3 +987,18 @@ boolean helper(TreeNode L, TreeNode R) {
     }
 }
 #+END_SRC
+*** Find a Root to Leaf Patgh With Specified Sum
+You are given a binary tree where each node is labaled with an integer. Tha tpath weight of a node in such a tree is the sum of the integers on the unique path from the root to that node. Write a program which takes as input an integer and a binary tree with integer node weights, and checks if there exists a leaf whose path weight equals the given integer.
+
+It is important to note that this is not a binary search tree (BST). This means that there is no order or searching property that we can take advantage of. Rather what we need to do is check every possible route. We can do this by starting from the root and recursively traversing down the tree.
+
+If the root is null then there is no path that adds up to the sum. When we recurse down left and right, we must subtract that value from the target value. We continue until we reach a leaf node, because we are looking for a full path, not a partial path.
+
+#+BEGIN_SRC
+doesPathSumExist(Root, k)
+    if Root = nil do
+        return false
+    else if Root.left != nil AND Root.right != nil do
+        return Root.data = K
+    return doesPathSumExist(Root.left, k - Root.data) OR doesPathSumExist(Root.right, k - Root.data)
+#+END_SRC
