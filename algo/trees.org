@@ -1034,15 +1034,15 @@ KthNodeTree(Root, k)
 KthNodeTree(Root, k)
     if Root = null do
         return null
-
-    current <-- Root
+    TreeNode current <-- Root
     while current != null do
-        leftSize <-- getLeftSize(current)
-        if leftSize < k do
-            k <-- k - leftSize
+        leftTreeSize <-- current.left.size
+        if leftTreeSize + 1 < k do
+            k <-- k - (leftTreeSize + 1)
             current <-- current.right
-        else if leftSize = k
+        else if leftTreeSize = k - 1 do
             return current
         else
             current <-- current.left
+    return null
 #+END_SRC
