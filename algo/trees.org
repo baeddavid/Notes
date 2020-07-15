@@ -1002,3 +1002,47 @@ doesPathSumExist(Root, k)
         return Root.data = K
     return doesPathSumExist(Root.left, k - Root.data) OR doesPathSumExist(Root.right, k - Root.data)
 #+END_SRC
+*** Compute the Kth node in an In-Order Traversal
+Write a program that efficiently computes the kth node appearing in an inorder matraversal.
+
+There are a few ways to approach this problem. The first way is to perform an inorder recursive traversal, counting k down from 1 every time we traverse a node. The second way is to perform an interative recursive traversal, counting down again.
+
+The optimal solution is a little bit more elegant. Let us assume we are given a tree [1,2,3,4,5,null,null,6,7,8] and k of 5. The fifth element of an inorder traversal would be 8.
+
+Let us again assume that the TreeNode class has an atrribute called .size which is the size of the tree. We can take advantage of this attribute to find the kth node.
+
+First let us get the size of the left subtree of the root. In the above example the size of our left subtree is 6 nodes. Add 1 to 6 as we are including the root in our search we have a total of 7 nodes. Since 5 < 7, we know that the left subtree including the root contains the 5th node. So we then traverse to root.left.
+
+Again we check the size of the left subtree. The size is 3, adding one for our root the total size is 4. 4 is less than 5, or the size of the left subtree plus the root is less than k. This means that the kth node is in our right subtree. Do not forget to subtract the size of the left subtree plus root.
+
+k is now 1. Again we look for the size of the left subtree plus the root which is 2. 1 < 2 meaning that the kth node is contained in our left subtree.
+
+The size of our left subtree is now 0 since we are at a leaf. If the size of our left subtree is equal to k - 1, we have found the kth node in an inorder traversal.
+
+Note that this algorithm runs significantly faster only if the TreeNode class has the size attribute. If the TreeNode class does not have the size attribute and we must implement a size subroutine then the time complexity is the same as the brute force.
+
+#+BEGIN_SRC
+KthNodeTree(Root, k)
+    if k = 0 do
+        return Root
+    else if Root != null do
+        KthNodeTree(Root.left, k - 1)
+        KthNode(Root.right, k - 1)
+#+END_SRC
+
+#+BEGIN_SRC
+KthNodeTree(Root, k)
+    if Root = null do
+        return null
+
+    current <-- Root
+    while current != null do
+        leftSize <-- getLeftSize(current)
+        if leftSize < k do
+            k <-- k - leftSize
+            current <-- current.right
+        else if leftSize = k
+            return current
+        else
+            current <-- current.left
+#+END_SRC
