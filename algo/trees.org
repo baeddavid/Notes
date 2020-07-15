@@ -1046,3 +1046,23 @@ KthNodeTree(Root, k)
             current <-- current.left
     return null
 #+END_SRC
+*** Compute the Lowest Common Ancestor in a Binary Tree
+Design an algorithm for computing the LCA of two nodes in a binary tree in which nodes do not have a parent field.
+
+Given any two nodes in a tree, they share an ancestor: the root. The lowest common ancestor is the lowest node where two nodes share the node as a subroot. A naieve solution would be to write a subroutine that checks if a tree contains the two nodes. You would then call that subroutine in a post order traversal.
+
+A better solution would be to create a class that has two attributes. One that tells us how many of the two nodes are found and the root of the tree. We then start from the leaves of the tree and work our way up. If the left subtree's object has a value of 2 then we return it. If the right subtree's value has a value of 2 then we return it. If either are not two we take the sum of both counts in addition to checking if the root equals either the left child or right child and adding 1 if either is true.
+
+#+BEGIN_SRC
+LowestCommonAncestor(Root, x, y)
+    if root = null do
+        return null
+    leftRoot <-- LowestCommonAncestor(Root.left, x, y)
+    if leftRoot.count = 2
+        return leftRoot
+    rightRoot <-- LowestCommonAncestor(Root.right, x, y)
+    if rightRoot.count = 2
+        return rightRoot
+    numNodes <-- leftRoot.count + rightRoot.count + (root = x ? 1 : 0) + (root = y ? 1 : 0)
+    return new object(numNodes, numNodes = 2 ? root : null)
+#+END_SRC
