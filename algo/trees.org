@@ -1095,3 +1095,26 @@ LowestCommonAncestorParent(x, y)
 
     return x
 #+END_SRC
+*** Find the In-Order Successor
+Design an algorithm that finds the inorder successor for a node k. You have access to a parent attribute.
+
+An inorder successor is the node that appears next in an inorder traversal. We could brute force the solution by calling an inorder traversal, but there is a more elegant solution than this.
+
+Since the inorder traversal is a DFS, we must first check if the node k has a right child. If the node k does have a right child, we simply return the left most leaf for k.right. The problem becomes more tricky if k does not have a right child. If k does not have a right child, we need to traverse back up the tree. If k does not have a right child we know that there are two conditions that need to be met for the successor node.
+
+1. If k is not a successor node, it is a right child.
+2. k is not null
+
+Using these two givens, we can come up with the condition that if k is not null and k is not a right child then the parent of k is the successor.
+
+#+BEGIN_SRC
+GetSuccessor(k)
+    if k.right != null do
+        return getMinimum(k.right)
+    else
+        parent <-- k.parent
+        while k != null AND k = parent.right do
+            k <-- parent
+            parent <-- parent.parent
+        return parent
+#+END_SRC
