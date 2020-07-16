@@ -1066,3 +1066,32 @@ LowestCommonAncestor(Root, x, y)
     numNodes <-- leftRoot.count + rightRoot.count + (root = x ? 1 : 0) + (root = y ? 1 : 0)
     return new object(numNodes, numNodes = 2 ? root : null)
 #+END_SRC
+*** Compute the Lowest Common Ancestor in a Binary Tree (With Parent Attribute)
+Design an algorithm for computing the LCA of two nodes in a binary tree.
+
+If we have access to the parent node then we must consider two cases. We must consider the first case where both node x and y are the same depth and the second case where x and y are of different heights.
+
+If both x and y are at the same height we traverse up the tree until they intersect. The intersection is the ancestor node. If x and y are at different depths then find the deepest node. Then increment the deepest node until it is at an even height with the other node. Then we travel up the tree until they intersect.
+
+#+BEGIN_SRC
+LowestCommonAncestorParent(x, y)
+    xHeight <-- maxDepth(x)
+    yHeight <-- maxDepth(y)
+
+
+    if yHeight > xHeight do
+        temp <-- x
+        x <-- y
+        y <-- temp
+
+    depthDiff <-- Absolute(yHeight - xHeight)
+    while depthDiff > 0 do
+        depthDiff <-- depthDiff - 1
+        x <-- x.parent
+
+    while y != x do
+        y = y.parent
+        x = x.parent
+
+    return x
+#+END_SRC
