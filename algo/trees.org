@@ -1118,3 +1118,26 @@ GetSuccessor(k)
             parent <-- parent.parent
         return parent
 #+END_SRC
+*** Find the In-Order Successor (BST with no Parent)
+Similar to finding the inorder successor for a binary tree the catch for this problem is that we do not have access to the parent attribute and that the tree is a binary search tree.
+
+The inorder successor has an additional implication in a binary search tree. The inorder successor is still the next node in an inorder traversal, but it is also the smallest element that is larger than the node k.
+
+We can take advantage of the fact that the tree is a BST to find the successor. Rather than working up the tree as we did with a parent attribute, we will be working down the tree in this instance.
+
+Using the important property from before, where we identified that if k is not a succesor it is a right child we can set up a recursive function that works its way down from the tree to find the successor.
+
+#+BEGIN_SRC
+GetSuccessor(root, succ, k)
+    if root = null do
+        return null
+    if root.data = k do
+        if root.right != null do
+            return getMinimum(root.right)
+    else if root.data < k do
+        succ <-- root
+        return getSuccessor(root.left, succ, k)
+    else
+        return getSuccessor(root.right, succ, k)
+    return succ
+#+END_SRC
