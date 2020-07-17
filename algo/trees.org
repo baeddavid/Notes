@@ -1141,3 +1141,19 @@ GetSuccessor(root, succ, k)
         return getSuccessor(root.right, succ, k)
     return succ
 #+END_SRC
+*** Merge Two Binary Trees
+Given two binary trees and imagine that when you put on of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to mreger them. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise the NOT null node will be used as the node of new tree.
+
+We can solve this problem with a recursive approach. We know that if both nodes exist then we simply add their values. If a node in treeOne does not exist and a node in treeTwo does, we return treeTwo. The vice versa applies.
+
+#+BEGIN_SRC
+MergeTrees(TreeOne, TreeTwo)
+    if TreeOne = null do
+        return TreeTwo
+    if TreeTwo = null do
+        return TreeOne
+    TreeOne.data <-- TreeOne.data + TreeTwo.data
+    TreeOne.left <-- MergeTrees(TreeOne.left, TreeTwo.left)
+    TreeTwo.right <-- MergeTrees(TreeTwo.right, TreeTwo.right)
+    return TreeOne
+#+END_SRC
