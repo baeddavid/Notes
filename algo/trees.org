@@ -1157,3 +1157,31 @@ MergeTrees(TreeOne, TreeTwo)
     TreeTwo.right <-- MergeTrees(TreeTwo.right, TreeTwo.right)
     return TreeOne
 #+END_SRC
+
+We can also solve this problem using a stack. To replicate two tree traversals, we push an array consisting of the roots of TreeOne and TreeTwo. We then begin looping as long as the stack is not empty. First pop the array of roots off the stack. If either root is null we then continue to the next cycle of the list.
+
+Add TreeTwo.data to TreeOne.data if both roots exist. After we add values we need to check for their children. If TreeOne.left is null then we know that TreeOne.left now must take TreeTwo.left. If TreeOne.left is not null then we need to merge TreeOne.left and TreeTwo.left as well.
+
+If TreeOne.right is null then we append TreeTwo.right to TreeOne.right. If TreeOne.right is not null then we need to perform another merge operation and merge TreeOne.right and TreeTwo.right.
+
+When we exit the loop the stack is empty and the trees have been merged.
+
+#+BEGIN_SRC
+MergeTrees(TreeOne, TreeTwo)
+    Stack <-- New Stack
+    Stack.push(Array(TreeOne, TreeTwo))
+    while Stack.size != 0 do
+        TreeArr <-- Stack.pop()
+        if TreeArr[1] = null OR TreeArr[2] = null do
+            continue
+        TreeArr[1] <-- TreeArr[1] + TreeArr[2]
+        if TreeArr[1].left = null do
+            TreeArr[1].left <-- TreeArr[2].left
+        else do
+            Stack.push(Array(TreeArr[1].left, TreeArr[2].left))
+        if TreeArr[1].right = null do
+            TreeArr[1].right <-- TreeArr[2].right
+        else do
+            Stack.psuh(Array(TreeArr[1].right, TreeArr[2].right))
+    return TreeOne
+#+END_SRC
