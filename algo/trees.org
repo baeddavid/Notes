@@ -1230,3 +1230,20 @@ RotateBinarySearch(A, x)
     else
         return BinarySearch(A, pivot + 1, A.length, x)
 #+END_SRC
+*** Search a sorted array for first instance of k
+Binary search commonly asks for the index of any element of a sorted array that is equal to a specified element. Write a method that takes a sorted array and a key and returns the index of the first occurence of the first occurrence of that key in the array, Return -1 if the does not appear in the array.
+
+We can brute force this problem in linear time by iterating from the beginning of the array until we find k. However this does not take advantage of the sorted property of the array. What we can do to take advantage is to modify the binary search algorithm. We modify it so that if A[mid] equals k and A[mid - 1] is equal to A[mid] then we recursively call the program to the left half.
+
+#+BEGIN_SRC
+FirstK(A, l, r, k)
+    if(r >= l)
+        m <-- l + (r - l) / 2
+        if A[m] = k AND (m = 0 OR A[m] > A[m - 1]) do
+            return m
+        if A[m] > k do
+            return FirstK(A, l, m - 1, k)
+        else
+            return FirstK(A, m + 1, r, k)
+    return -1
+#+END_SRC
