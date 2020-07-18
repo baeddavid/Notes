@@ -1223,8 +1223,10 @@ Now how can we take advantage of knowing where the pivot is? Well if we are look
 #+BEGIN_SRC
 RotateBinarySearch(A, x)
     pivot <-- FindPivot(A, 1, A.length)
-    if A[pivot] > x do
-        return BinarySearch(A, 1, pivot, x)
+    if A[pivot] = x do
+        return pivot
+    if A[0] <= x do
+        return BinarySearch(A, 1, pivot - 1, x)
     else
-        return BinarySearch(A, pivot, A.length, x)
+        return BinarySearch(A, pivot + 1, A.length, x)
 #+END_SRC
