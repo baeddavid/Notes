@@ -1185,3 +1185,46 @@ MergeTrees(TreeOne, TreeTwo)
             Stack.psuh(Array(TreeArr[1].right, TreeArr[2].right))
     return TreeOne
 #+END_SRC
+***  Search in a Rotated Array
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. You are given a target value to search. If found in the array return its index, otherwise return -1. You may assume no duplicate exists in the array. You algorithm's complexity must run in the order of O(log n).
+
+We can solve this problem by breaking the array into two subarrays where we have two sorted arrays. Assuming k is the pivot we have A[1...k] and A[k + 1...A.length]. The problem here lies whether we can find the pivot k in logarithmic time. Finding it in linear time is trivial as we search for an element where A[k - 1] < A[k] > A[k + 1].
+
+To find it in logarithmic time we need to take advantage of the somewhat sorted input.
+
+Looking at the array <4,5,6,7,0,1,2> we know that the pivot is 0. We know that the pivot is 0, because it is a peak element. We also know that if the element at the middle of the array is less than the last element, then the pivot is in the right half. If the middle element is less than the last element than the pivot is in the left half.
+
+We know we have found the pivot if one of three conditions are met.
+    1. If A[mid] > A[mid + 1]
+    2. If A[mid] < A[mid - 1]
+    3. If the size of the array is one.
+
+If A[mid] > A[mid + 1] then A[mid] is the pivot.
+If A[mid] < A[mid - 1] then A[mid - 1] is the pivot.
+If the size of the array is 1 then there are no other possible choices.
+
+#+BEGIN_SRC
+FindPivot(A, l, r)
+    if l = r do
+        return l
+    mid <-- (l + r) / 2
+    if A[mid] > A[mid + 1] do
+        return mid
+    if A[mid - 1] > A[mid] do
+        return mid - 1
+    if A[mid] > A[r] do
+        return FindPivot(A, mid + 1, r)
+    else
+        return FindPivot(A, l, mid - 1)
+#+END_SRC
+
+Now how can we take advantage of knowing where the pivot is? Well if we are looking for a value x in an array A and we have the value of the pivot A[k] we now which side we need to perform binary search on. If A[k] > x then we perform binary search on A[1...k]. If A[k] < x then we perform binary search on A[k...A.length].
+
+#+BEGIN_SRC
+RotateBinarySearch(A, x)
+    pivot <-- FindPivot(A, 1, A.length)
+    if A[pivot] > x do
+        return BinarySearch(A, 1, pivot, x)
+    else
+        return BinarySearch(A, pivot, A.length, x)
+#+END_SRC
