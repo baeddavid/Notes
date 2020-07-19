@@ -1266,3 +1266,7 @@ SearchEntryEqualIndex(A, l, r)
             SearchEntryEqualIndex(A, m + 1, r)
     return -1
 #+END_SRC
+**** Variant
+Solve the same problem when A is sorted but may contain duplicates.
+
+The variant does not particularly change the problem. Since we are looking at the difference between A[m] and m, duplicates do not affect the way the algorithm functions.
