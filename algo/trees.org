@@ -1247,3 +1247,22 @@ FirstK(A, l, r, k)
             return FirstK(A, m + 1, r, k)
     return -1
 #+END_SRC
+*** Search Entry Equal to Index
+Design an efficient algorithm that takes a sorted array of distinct integers and returns and index i such that the element at index i equals i.
+
+Let us say we are given the array <-2,0,2,3,6,7,9>. We are expected to return either 2 or 3 for this algorithm. Finding the solution in linear time is a trivial feat: we iterate through the array until we find the first instance where the index matches the element.
+
+We can get our time complexity time to O(log n) using binary search. The big question here is what property will help us to use binary search? Looking at the array <-2,0,2,4,6,7,8> take note that the only possible anwer is index 2. If we get the element at the mid point (l + (r - l) / 2) we get the value 4 at index 3. This means that every element after index 3 at least has a difference of 1. If an element does have a search entry equal to its index then it must be before the mid point. The reverse logic applies as well.
+
+#+BEGIN_SRC
+SearchEntryEqualIndex(A, l, r)
+    if l <= r do
+        m <-- (l + (r - l)) / 2
+        if A[m] = m do
+            return m
+        else if A[m] > A[m] - m do
+            SearchEntryEqualIndex(A, l, m - 1)
+        else
+            SearchEntryEqualIndex(A, m + 1, r)
+    return -1
+#+END_SRC
