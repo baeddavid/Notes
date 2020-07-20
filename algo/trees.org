@@ -1268,6 +1268,50 @@ SearchGreaterThanK(A, l, r, k)
             return SearchGreaterThanK(A, l, m - 1, k)
     return -1
 #+END_SRC
+**** Variant C
+Write a program which takes a sorted array A of integers, and an integer k, and returns the interval enclosing k, the pair of integers L and U such that L is the first occurrence of k in A and U is the last occurrence of k in A. If k does not appear in A, return [-1, -1].
+
+Let us say the input we are given is <1,2,2,4,4,4,7,11,11,13> and k = 11. We shoudl return 7,8 as they are the indices that enclose 11. The brute force way to solve this problem would be to just perform a linear scan looking for the first instance of k and then the last instance of k. This obviously takes O(n) time.
+
+We can reduce the time complexity of this algorithm to O(log n) by finding the first occurrence of k and the last occurrence of k. We then return both indices as an array.
+
+Find first instance of k
+#+BEGIN_SRC
+FirstK(A, l, r, k)
+    if(l <= k)
+        m <-- l + (r - l) / 2
+        if A[m] = k AND (m = 0 OR A[m] > A[m - 1]) do
+            return m
+        if A[m] > k do
+            return FirstK(A, l, m - 1, k)
+        else
+            return FirstK(A, m + 1, r, k)
+    return -1
+#+END_SRC
+
+Find last instance of k
+#+BEGIN_SRC
+FindLastK(A, l, r, k)
+    if(l <= k)
+        m <-- l + (r - l) / 2
+        if A[m] = k AND (m = 0 OR A[m] < A[m + 1]) do
+            return m
+        if A[m] > k do
+            return FindLastK(A, l, m - 1, k)
+        else
+            return FindLastk(A, m + 1, r, k)
+    return -1
+#+END_SRC
+
+Get Enclosure
+#+BEGIN_SRC
+GetEnclosure(A, l, r, k)
+    first <-- FirstK(A, 1, A.length, k)
+    last <-- FindLastK(A, 1, A.length, k)
+    if first = -1 OR last = -1 do
+        return -1
+    return new Array(first, last)
+#+END_SRC
 
 *** Search Entry Equal to Index
 Design an efficient algorithm that takes a sorted array of distinct integers and returns and index i such that the element at index i equals i.
