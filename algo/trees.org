@@ -1247,6 +1247,11 @@ FirstK(A, l, r, k)
             return FirstK(A, m + 1, r, k)
     return -1
 #+END_SRC
+**** Variant A
+Design an efficient algorithm that takes a sorted array and a key and finds the index of the first occurrence of an element greater than that key.
+
+
+
 *** Search Entry Equal to Index
 Design an efficient algorithm that takes a sorted array of distinct integers and returns and index i such that the element at index i equals i.
 
@@ -1257,7 +1262,7 @@ We can get our time complexity time to O(log n) using binary search. The big que
 #+BEGIN_SRC
 SearchEntryEqualIndex(A, l, r)
     if l <= r do
-        m <-- (l + (r - l)) / 2
+        m <-- l + (r - l) / 2
         if A[m] = m do
             return m
         else if A[m] > A[m] - m do
