@@ -1250,7 +1250,24 @@ FirstK(A, l, r, k)
 **** Variant A
 Design an efficient algorithm that takes a sorted array and a key and finds the index of the first occurrence of an element greater than that key.
 
+The problem sounds somewhat complicated, but the solution is fairly simple if we think about it. Rather than focusing on what the base case is for our recursion, we focus on finding the cases for when we recurse. If given a value k and it is equal to k, we need to recurse to the right side since we are looking for an element greater than k. If an element at m is less than k, we need to recurse to the right half. If an element at m is greater than k, we need to recurse to the left half.
 
+Where k = A[m] and A[m] < k both share the same condition to recurse.
+
+Our base case is when the size of the array is 1 or when left = right.
+
+#+BEGIN_SRC
+SearchGreaterThanK(A, l, r, k)
+    if l <= r do
+        m <-- l + (r - l) / 2
+        if l = r do
+            return A[m]
+        if A[m] = k OR A[m] < k
+            return SearchGreaterThanK(A, m + 1, r, k)
+        else
+            return SearchGreaterThanK(A, l, m - 1, k)
+    return -1
+#+END_SRC
 
 *** Search Entry Equal to Index
 Design an efficient algorithm that takes a sorted array of distinct integers and returns and index i such that the element at index i equals i.
