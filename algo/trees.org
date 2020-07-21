@@ -1340,3 +1340,17 @@ SearchEntryEqualIndex(A, l, r)
 Solve the same problem when A is sorted but may contain duplicates.
 
 The variant does not particularly change the problem. Since we are looking at the difference between A[m] and m, duplicates do not affect the way the algorithm functions.
+*** Running Sum of 1d Array
+Given an array nums we define a running sum of an array as runningSum[i] = sum(nums[0]...nums[i]).
+
+We initialize a new array with the same size as nums. The first element in this new array is nums[0]. The second element is nums[0] + nums[1]. After nums[1], every answer[i] is nums[i] + answer[i - 1].
+
+#+BEGIN_SRC
+f(A)
+    Answer <-- new Array(A.length)
+    Answer[0] <-- A[0]
+    Answer[1] <-- A[0] + A[1]
+    for i <-- 2 to A.length - 1 do
+        Answer[i] <-- A[i] + Answer[i - 1];
+    return Answer
+#+END_SRC
