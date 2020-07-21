@@ -1,0 +1,52 @@
+#+TITLE: Compilers Chapter2
+* Chapter 2
+** 2.1
+Syntax - Describes the proper form of its programs
+Semantic - Defines what its programs means
+** 2.2
+For example, an if-else stament in java can have the form
+    if (expression) statement else statement
+
+    Rule: stmt --> if ( expr ) stmt else stmt
+    The arrow can be read as "can have the form". Such a rule is called a production.
+    Lexical elements such as if and the parentheses are called terminals.
+    Variables like expr and strmt represent sequences of terminals and are called nonterminals.
+*** 2.2.1
+Context-free-grammar has four components:
+    1. A set of terminal symbols, sometimes referred to as "tokens". The terminals are the elementary symbols of the language defined by the grammar.
+    2. A set of nonterminals, sometimes called "syntactic variables." Each nonterminal represents a set of strings of terminals, in a manner we shall describe.
+    3. A set of productions, where each production consists of a nonterminal, called the head or left side of the production, an arrow, and a sequence of terminals and/or nonterminaks, called the body or right side of the production. The intuitive intent of a production is to specify one of the written forms of a construct; if the head of a nonterminal represents a construct, then the body represens a written form of the construct.
+    4. A designation of one of the nonterminals as the start symbol.
+**** Example 2.1
+ex1: 9 - 5 + 2
+ex2: 3 - 1
+ex3: 7
+
+Since a plus or minus sign must appear between two digits, we refer to such expressions as lists of digits seperate by plus or minus signs.
+
+list --> list + digit
+list --> list - digit
+list --> digit
+digit --> 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+We can then group the nonterminal list together such that we get the rule
+list --> list + digit | list - digit | digit
+
+
+A string of terminals is a sequence of zero or more terminals. The string of zero terminals is called ϵ, or the empty string.
+*** 2.2.3 Parse Trees
+If nonterminal A has a production A --> XYZ, then a parse tree may have an interior node labeled A with three children labaled X, Y, and Z, from left to right.
+
+A parse tree has the following properties
+    * The root is labeled by the start symbol.
+    * Each leaf is labeled by a terminal or ϵ.
+    * Each interior node is labeled by a nonterminal.
+    * If A is the nonterminal labeling some interior node and X1, X2,..., Xn are the labels of the children of that node from left to right, then there must be a production A --> X1X2...Xn, In a special case if A --> ϵ is a production, then a node labeled A may have a single child called ϵ.
+*** 2.2.4 Ambiguity
+A grammar can have more than one parse tree generating a given string of terminals. Such a grammar is said to be ambiguous. To show that a grammar is ambiguous, all we need to do is find a terminal string that is the yield of more than one parse tree.
+*** 2.2.6 Precedence of Operators
+We can create precedence for operations by creating productions. Let us say we want to create a grammar that handles basic arithmetic. We could do so with 3 productions.
+
+factor --> digit | ( expr  )
+term --> term * factor | term / factor | factor
+expr --> expr + factor | exptr - factor | term
