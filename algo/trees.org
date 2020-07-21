@@ -1230,6 +1230,10 @@ RotateBinarySearch(A, x)
     else
         return BinarySearch(A, pivot + 1, A.length, x)
 #+END_SRC
+**** Variant A
+A sequence is strictly ascending if each element is greater than its predecessor. Suppose it is known that an array A consists of a strictly ascending sequence followed by a strictly descending sequence. Design an algorithm for finding the position of an element k in a cyclically sorted array of distinct elements.
+
+Get the median of the array. If A[median] < A[median - 1] AND median != 0 then we recurse to the left half of the array. if A[median + 1] > A[median] AND median != A.length - 1 then we recurse to the right half of the array. If A[m] > A[m - 1] AND A[m] > A[m + 1] return A[m].
 *** Search a sorted array for first instance of k
 Binary search commonly asks for the index of any element of a sorted array that is equal to a specified element. Write a method that takes a sorted array and a key and returns the index of the first occurence of the first occurrence of that key in the array, Return -1 if the does not appear in the array.
 
