@@ -1354,3 +1354,36 @@ f(A)
         Answer[i] <-- A[i] + Answer[i - 1];
     return Answer
 #+END_SRC
+*** Dutch National Flag Problem
+Write a program that takes an array A and an index i into A, and rearranges the elements such that all elements less than A[i], appear first, followed by elements equal to the pivot, followed by elements greater than the pivot.
+
+I: A: <0,1,2,0,2,1,1>, P: 3
+O: <0,0,1,2,2,1,1> OR <0,0,1,1,1,2,2>
+
+The brute force is to perform two passes on the array. We can "grow" the array from the front and back of the array. Initalize two pointers, one called less and one called greater. Less is initalized with a value of 1 and greater is initialized with a value of A.length.
+
+On the first pass of the array, we start from the front of the array. We are looking to find elements that are less than A[p] and swap them into the correct half of the array. If A[i] < A[p] then we swap the values at A[i] and A[smaller] and increment smaller by one.
+
+On the second pass we start from the back of the array and iterate to the front. We are looking for elements that are greater than A[p]. If A[p] is less than A[j] then we swap the values at A[j] and A[greater] and then decrement greater by one.
+
+#+BEGIN_SRC
+f(A, p)
+    smaller <-- 1
+    larger <-- A.length
+    pivot <-- A[p]
+    for i <-- 1 to A.length do
+        if A[i] < A[p] do
+            swap A[smaller] and A[i]
+            smaller <-- smaller + 1
+    for j <-- A.length to 1 do
+        if A[i] > pivot do
+            swap A[larger] and A[j]
+            larger <-- larger - 1
+#+END_SRC
+
+Bottlenecks:
+    1. 2 passes make the run time longer than it needs to be.
+
+We can do this in 1 pass by manipulating pointers a little bit. Picture the input array A as consisting of 4 subarrays. Subarray that has elements less than A[p], elements equal to A[p], elements greater than A[p], and elements we are not sure yet. We use three pointers, less, equal, and greater. Greater starts at the end of the array and both less and equal start at the front of the array.
+
+The idea is to use equal as both the last index pointer for equal elements and iterator. We will iterate until equal and greater cross paths. If we find an element that is less than A[p], we swap A[less] and A[equal] and then increment less and equal by one. If we find an element that is equal to A[p], we simply increment the equal pointer. If we find an element greater than A[p], we swap with A[equal] and decrement greater by one.
