@@ -385,6 +385,47 @@ This is because of the sorted anture of the tree. When we insert a node z into t
 The worst case running time for sorting an array using a binary search tree is O(n^2). This occurs when the input array is sorther either ascending or descending. This is because we must traverse the entire tree to append any element from an array A.
 
 The best case is when the tree is balanced. Insertion into a balanced tree is a O(log n) operation since we only need to traverse a single subtree at each comparison. This means that given a perfectly balanced input, sorting the array would take O(n log n).
+** Graphs
+*** Undirected Graphs
+A graph is a set of vertices and a collection of edges that each connect a pair of vertices.
+
+A self-loop is an edge that connects a vertex to itself.
+Two edges that connect the same pair of vertices are parallel.
+
+There are two ways we can represent the edges between vertices.
+    1. The first way is to create adjacency-list representations. Essentially every vertex in the graph has a list that contains the vertices that it is connected to.
+
+       It is better to use adjacency-lists for sparsely populated graphs. Sparese graphs refer to the number of edges the graph has, not the number of vertices.
+
+       1 --> {4, 6, 2, 3} means that the vertex one has an edge to vertex 4, 6, 2, and 3.
+    2. The second way is adjacency-matrix representation. It is a matrix representation of the graph such that if (i, j), which are vertices, have a value of 1, then there is an edge connecting the two. 0 If there is no edge.
+
+       It is better to use adjacency-matrices for densely populated graphs.
+**** DFS (Depth First Search)
+**** BFS (Breadth First Search)
+Breadth first search is a way to traverse a graph. Similar to traversing a tree, traversing graphs pose a slight difficulty. Graphs may contain cycles, something that is not accounted for in traversing a tree. To avoid processing a node more than once, we use a boolean visited array.
+
+#+BEGIN_SRC java
+void BFS(int s) {
+    boolean[] visited = new boolean[V];
+    LinkedList <Integer> queue = new LinkedList <Integer>();
+    visited[s] = true;
+    queue.add(s);
+
+    while(queue.size() != 0) {
+        s = queue.poll();
+        // ACTION ON s
+        Iterator <Integer> i = adj[s].listIterator();
+        while(i.hasNext()) {
+            int n = i.next();
+            if(!visited[n]) {
+                visited[n] = true;
+                queue.add(n);
+            }
+        }
+    }
+}
+#+END_SRC
 
 ** Interview Problems
 *** Maximum Depth of Binary Tree
@@ -1406,3 +1447,4 @@ f(A, p)
             A[larger] <-- A[equal]
             equal <-- equal - 1
 #+END_SRC
+ this is my gaming key board. It is the pok3r and i am a big fan of it and how it sounds AND IT SUPPORTS CAP LOCKv
