@@ -1447,4 +1447,29 @@ f(A, p)
             A[larger] <-- A[equal]
             equal <-- equal - 1
 #+END_SRC
- this is my gaming key board. It is the pok3r and i am a big fan of it and how it sounds AND IT SUPPORTS CAP LOCKv
+*** Three Sum Closest
+Given an array nums of nintegers and an integer target, find three integers in nums such that the num is closest to target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
+
+We can take inspiration from the two sum solution. In the two sum solution, if the array is sorted, we can use a two pointer solution where we adjust pointers accordingly depending on if the sum at both pointers is greater than or less than the target value. We can use take this solution and modify it for the purpose of threesum. Essentially we perform the two sum solution from another pointer i.
+
+The slight catch here is that we are looking for the three sum that is closest to the target. So assuming that the target sum in the array does not exist, and we wish to find the closest sum we must take the absolute difference of the target and the current sum we are on. If the absolute difference is less than the current minimum we update the minimum value accordingly.
+
+#+BEGIN_SRC
+f(A, k)
+    Sort(A)
+    currentSum <-- A[1] + A[2] + A[A.length]
+    currentMin <-- AbsDiff(currentSum - k)
+    for i <-- 1 to A.length - 2 do
+        p1 <-- i + 1
+        p2 <-- A.length
+        while p1 < p2 do
+            sum <-- A[i] + A[p1] + A[p2]
+            if sum > k do
+                p2 <-- p2 - 1
+            else
+                p1 <-- p1 + 1
+        if AbsDiff(sum - k) < currentMin do
+            currentMin <-- AbsDiff(sum - k)
+    return currentMin
+
+#+END_SRC
