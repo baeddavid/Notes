@@ -1464,12 +1464,12 @@ f(A, k)
         p2 <-- A.length
         while p1 < p2 do
             sum <-- A[i] + A[p1] + A[p2]
+            if AbsDiff(sum - k) < currentMin do
+            currentMin <-- AbsDiff(sum - k)
             if sum > k do
                 p2 <-- p2 - 1
             else
                 p1 <-- p1 + 1
-        if AbsDiff(sum - k) < currentMin do
-            currentMin <-- AbsDiff(sum - k)
     return currentMin
 
 #+END_SRC
