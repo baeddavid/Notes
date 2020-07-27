@@ -1473,3 +1473,32 @@ f(A, k)
     return currentMin
 
 #+END_SRC
+*** 3-Sum in quadratic time
+Design an algoirhtm for the 3-sum problem that takes time proportional to n^2 in the worst case. You may assume that you can sort the n integers in time proportional to n^2 or better.
+
+Very similar to how we solved the three sum closest problem except this time we are returning all unique possible combinations that are equal to the target value. One thing we need to keep in mind is that since we are looking for "unique" combinations we need to make sure that there are no duplicates in our answer.
+
+#+BEGIN_SRC
+f(A, k)
+    Sort(A)
+    Answer <-- empty list
+    for i <-- 1 to A.length - 2 do
+        // Check if i is a duplicate. If it is a duplicate iterate to next value
+        if i == 0 OR A[i] != A[i - 1] do
+            p1 <-- i + 1
+            p2 <-- A.length - 1
+            targetSum <-- k - A[i]
+            if A[p1] + A[p2] = targetSum do
+                Answer.add(p1, p2, i)
+                while A[p1] == A[p1 + 1] AND p1 < p2 do
+                    p1 <-- p1 + 1
+                while A[p2] == A[p2 - 1] && p1 < p2 do
+                    p2 <-- p2 + 1
+                p1 <-- p1 + 1
+                p2 <-- p2 - 1
+            else if targetSum > A[p1] + A[p2] do
+                p1 <-- p1 + 1
+            else
+                p2 <-- p2 - 1
+    return Answer
+#+END_SRC
