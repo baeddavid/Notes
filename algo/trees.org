@@ -1502,3 +1502,51 @@ f(A, k)
                 p2 <-- p2 - 1
     return Answer
 #+END_SRC
+*** Search in a bitonic array
+An array is bitonic if it is comprised of an increasing sequence of integers followed immediately by a decreasing sequence of integers. Write a program that, given a bitonic array of n distinct integer values, determines whether a given integer is in the array.
+
+Ex. <6,7,8,9,5,4,3>
+Ex. <6,7,5,4,3,2,1>
+
+Can we find the pivot of a bitonic array using binary search potentially?
+
+We get the median of the array and compare its value against the first element of the array. If the first element is less than the median, we know that the pivot is in the right half of the array. If the first element is greater than the median, we know the pivot is present in the left half. We continue this process until we have a subarray of size one. That element in the subarray is the pivot.
+
+#+BEGIN_SRC
+GetPivot(A, L, R)
+    if(L == R) do
+        return L
+    M <-- L + (R - L) / 2
+    if M < R AND A[M] > A[M + 1] AND A[M] > A[M - 1] do
+    if A[M] > A[1] do
+       return GetPivot(A, M + 1, R)
+    return GetPivot(A, L, M - 1)
+#+END_SRC
+
+After finding the pivot we need to implement two different variations of binary search. The first binary search is the normal binary search that searches a sorted array for a key k. The second binary search searches a reverse sorted array for a key k.
+
+#+BEGIN_SRC
+Normal Binary Search
+BS(A, L, R, k)
+    if L < R do
+        M <-- L + (R - L) / 2
+        if A[M] = k do
+            return M
+        else if A[M] > k do
+            return BS(A, L, M - 1, k)
+        return BS(A, M + 1, R, k)
+    return -1
+#+END_SRC
+
+#+BEGIN_SRC
+Reverse Sorted Binary Search
+RBS(A, L, R, K)
+    if L < R do
+        M <-- L + (R - L) / 2
+        if A[M] = k do
+            return M
+        else if A[M] > k do
+            return RBS(A, M + 1, R, k)
+        return RBS(A, L, M - 1, k)
+    return -1
+#+END_SRC
