@@ -1578,3 +1578,7 @@ We can recursively create the tree by taking advantage of this property.
 
 P[i].left is made up of P[1..root] and I[0..root - 1]
 P[i].right is made up of P[root + 1..P.length - 1] and I[root + 1..I.length - 1]
+
+The time complexity is O(n ^ 2).
+
+The current time complexity of the algorithm is bottlenecked by the search operation we do for every node we append to the tree. Scanning the array each iteration is costly. We can reduce the time complexity by caching the the array and its indices instead. This reduces the time complexity to a linear time.
