@@ -1582,3 +1582,12 @@ P[i].right is made up of P[root + 1..P.length - 1] and I[root + 1..I.length - 1]
 The time complexity is O(n ^ 2).
 
 The current time complexity of the algorithm is bottlenecked by the search operation we do for every node we append to the tree. Scanning the array each iteration is costly. We can reduce the time complexity by caching the the array and its indices instead. This reduces the time complexity to a linear time.
+*** Constructing a Binary Tree from Postorder and Inorder Traversal Data
+Given an inorder traversal sequence and a postorder traversal sequence of a binary tree write a program to reconstruct the tree. Assume each node has a unique key.
+
+Inorder: <F,B,A,E,H,C,D,I,G>
+Postorder: <F,A,E,B,I,G,D,C,H>
+
+The way we solve this problem is similar to the Preorder and Inorder construction. The properties for the inorder traversal remains the same. However what we know from the postorder traversal is that P[P.length - 1] is the root for a tree. Finding the index of the root in I gives us the left subtree and the right subtree in the postorder traversal.
+
+The elements from P[0..root - 1] belong to the left subtree. The elements from P[root..P.length - 2] belong to the right subtree. Using this knowledge we can construct the binary tree recursively by passing these subarrays repeating the properties we have discovered.
