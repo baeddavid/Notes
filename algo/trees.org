@@ -1551,7 +1551,6 @@ RBS(A, L, R, K)
     return -1
 #+END_SRC
 *** Egg Drop Problem
-
 We are given N eggs and a building with K floors. We are asked to find the minimum unmber of drops to find the floor where eggs will begin to break.
 
 There are two different base cases to consider. The first base case is when we have 0 or 1 eggs. If we have 0 floors then we know that there are no floors in the building and if we have 1 floor then we know that at minimum we must perform 1 drop.
@@ -1563,3 +1562,19 @@ If we drop an egg from floor x and it breaks then we only need to check for floo
 If the egg doesnt break then we only need to check floors higher than x. This reduces the problem to k - x.
 
 Because we are asked to minimize the number of trials in the worst case, we take the maximum of two cases. Once we have taken the max we return the floor which yields the minimum number of trials.
+*** Constructing a Binary Tree from Preorder and Inorder Traversal Data
+Given an inorder traversal sequence and a preorder traversal sequence of a binary tree write a program to reconstruct the tree. Assume each node has a unique key.
+
+Inorder: <F,B,A,E,H,C,D,I,G>
+Preorder: <H,B,F,E,A,C,D,G,I>
+
+What do we know from the two traversals?
+
+P[0] is the root of the tree. Going forward any P[i] is the subroot for a subtree i.
+
+If we find P[0] in I, we know both the size of the left and right subtrees and what elements they contain. All elements to the left of P[0] in I are elements that belong to the left subtree and all elements to the right belong to the right subtree.
+
+We can recursively create the tree by taking advantage of this property.
+
+P[i].left is made up of P[1..root] and I[0..root - 1]
+P[i].right is made up of P[root + 1..P.length - 1] and I[root + 1..I.length - 1]
