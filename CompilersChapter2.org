@@ -8,6 +8,7 @@ For example, an if-else stament in java can have the form
     if (expression) statement else statement
 
     Rule: stmt --> if ( expr ) stmt else stmt
+
     The arrow can be read as "can have the form". Such a rule is called a production.
     Lexical elements such as if and the parentheses are called terminals.
     Variables like expr and strmt represent sequences of terminals and are called nonterminals.
@@ -44,9 +45,19 @@ A parse tree has the following properties
     * If A is the nonterminal labeling some interior node and X1, X2,..., Xn are the labels of the children of that node from left to right, then there must be a production A --> X1X2...Xn, In a special case if A --> ϵ is a production, then a node labeled A may have a single child called ϵ.
 *** 2.2.4 Ambiguity
 A grammar can have more than one parse tree generating a given string of terminals. Such a grammar is said to be ambiguous. To show that a grammar is ambiguous, all we need to do is find a terminal string that is the yield of more than one parse tree.
+
+Take the input: 9 - 5 + 2
+And the production: string --> string + string | string - string | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+At a cursory glance the merging of 'list' and 'digit' seems like the right way to minimize the number of productions. However doing so carries consequences.
+
+By having the current production we can actually create two parse trees, which translates to (9 - 5) + 2 and 9 - (5 + 2). This is a direct result of converting 'list + digit | list - digit'
+*** 2.2.5 Associativity of Operators
+By convention 9 + 5 + 2 os equivalent to (9 + 5) + 2. When an operand like 5 has operators to its left and right, conventions are needed for deciding which operator applies to that operand. We say that the + operator associates to the left, because an operand with plus signs on both sides of it belongs to the operator on the left.
 *** 2.2.6 Precedence of Operators
 We can create precedence for operations by creating productions. Let us say we want to create a grammar that handles basic arithmetic. We could do so with 3 productions.
 
 factor --> digit | ( expr  )
 term --> term * factor | term / factor | factor
 expr --> expr + factor | exptr - factor | term
+***
