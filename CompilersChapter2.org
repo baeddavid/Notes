@@ -61,3 +61,23 @@ factor --> digit | ( expr  )
 term --> term * factor | term / factor | factor
 expr --> expr + factor | exptr - factor | term
 ***
+** 2.3 Syntax Directed Translation
+Syntax-directed translation is done by attaching rules or program fragments to productions in a grammar.
+
+expr --> expr1 + term
+
+expr is the sum of the two subexpressions expr1 and term. We can translate expr by exploiting its structure as in the following pseudo-code:
+
+    translate expr1;
+    translate term;
+    handle +;
+*** 2.3.1 Postfix Notation
+The postfix notation for an expression E can be defined inductively as follows:
+    1. If E is a variable or constant, then the postfix notation for E is E itself.
+    2. If E is an expreesion of the form 'E1 op E2', where 'op' is any binary operator, then the postfix notation for E is 'E`1 E`2 op', where E`1 and E`2 are the postfix notations for E1 and E2, respectively.
+    3. If E is a parenthesized expression of the form (E1), then the postfix notation for E is the same as the postfix notation for E1.
+*** 2.3.2 Syntheseized Attributes
+A syntax-directed defintion associates
+    1. With each grammar symbol, a set of attributes, and
+    2. With each production, a set of semantic rules for computong the values of the attributes associated with the symbols appearing in the produciton.
+***
