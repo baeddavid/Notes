@@ -80,4 +80,20 @@ The postfix notation for an expression E can be defined inductively as follows:
 A syntax-directed defintion associates
     1. With each grammar symbol, a set of attributes, and
     2. With each production, a set of semantic rules for computong the values of the attributes associated with the symbols appearing in the produciton.
-***
++----------------------------------------+----------------------------------------+
+|         expr --> expr1 + term          |    expr.t = expr1.t || term.t || '+'   |
++----------------------------------------+----------------------------------------+
+|         expr --> expr1 - term          |    expr.t = expr1.t || temr.t ++ '-'   |
++----------------------------------------+----------------------------------------+
+|         expr --> term                  |    expr.t = term.t                     |
++----------------------------------------+----------------------------------------+
+|         term --> 0                     |    term.t = '0'                        |
++----------------------------------------+----------------------------------------+
+|         term --> 1...                  |    term.t = '1'...                     |
++----------------------------------------+----------------------------------------+
+|         term --> 9                     |    term.t = '9'                        |
++----------------------------------------+----------------------------------------+
+*** 2.3.4 Tree Traversals
+Tree traversals are used for describing attribute evaluation and for specifying the execution of code fragments in a translation scheme. A traversal of a tree starts at the root and visits each node of the tree in some order.
+**** Depth First Traversal (DFS)
+DFS starts at the root and recursively visits the the children of each node in any order, not necessarily from left to right. It is called "depth-first" because it visits an unvisited child of a node whenever it can, so it visits nodes as far away from the root as quickly as it can.
