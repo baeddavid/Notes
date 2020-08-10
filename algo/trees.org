@@ -1591,3 +1591,21 @@ Postorder: <F,A,E,B,I,G,D,C,H>
 The way we solve this problem is similar to the Preorder and Inorder construction. The properties for the inorder traversal remains the same. However what we know from the postorder traversal is that P[P.length - 1] is the root for a tree. Finding the index of the root in I gives us the left subtree and the right subtree in the postorder traversal.
 
 The elements from P[0..root - 1] belong to the left subtree. The elements from P[root..P.length - 2] belong to the right subtree. Using this knowledge we can construct the binary tree recursively by passing these subarrays repeating the properties we have discovered.
+*** Inverse a Binary Tree
+Given a binary tree inverse the tree.
+
+In an inversed binary tree the right subtree is the original tree's left subtree inversed. The left subtree is the original tree's right subtree inversed. Using these two properties we can recursively inverse the tree.
+
+The one part we must be careful for is when we recursively inverse the tree, we lose the pointers as they get overwritten. So we need to create pointers that store the subtree roots for the left and right subtree.
+
+InverseTree(root)
+    // Base case
+    if root = null do
+        return null
+    // Create pointers for the left and right subtree
+    left <-- root.left
+    right <-- root.right
+    // Recursively inverse the tree
+    root.left <-- InverseTree(root.right)
+    root.right <-- InverseTree(root.left)
+    return root
