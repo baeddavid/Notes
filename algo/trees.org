@@ -1617,5 +1617,9 @@ We can create a class that contains two nodes to return.
 There are two ways we can find the sum. The first way is to perform a DFS on one tree and searching the other tree for x - DFS(current.val). If such a pair exists we create a new object with both nodes and return it. The time complexity for this implementation is O(mn) where m is the number of nodes in the first tree and n is the number of nodes in the second tree. Although the time complexity for searching a tree is O(log n), it is O(log n) only if the tree is balanced. In the worse case where the tree is similar to a linked list then the time complexity is O(n). In a balanced tree the time complexity is O(m log n) and in an unbalanced tree it is O(mn).
 
 Another way to sovle this problem is to create perform an inorder traversal on both trees and convert them into arrays. We then iterate through one array and then perform binary search on the other array looking for x - M[i] where M is the inorder representation of a tree. The time complexity for this solution is O(m log n) because the arrays are sorted. However the space complexity is O(m + n) since we need to convert both trees into arrays.
+*** Construct a Tree from Preorder Traversal with Null Markers
+Design an algorithm for reconstructing a binary tre from a preorder traversal visit sequence that uses null to mark empty children.
 
-Tree Traversal Solution
+In a preorder traversal we know that the first element is the root of the tree. If we are given null markers we can take advantage of this to construct a tree recursively by iterating through the list. Using a global variable to keep track of where we are in the preorder sequence, we can begin appending children to each subroot. If the value we retrieve at the global variable is null we simply return null. If it is not null then we return the current value in the sequence and begin recursing again.
+
+It is important we recurse left then right as this dictates the correct ordering of the tree as the preorder traversal will explore the left subtree first.
