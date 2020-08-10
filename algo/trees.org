@@ -1609,3 +1609,13 @@ InverseTree(root)
     root.left <-- InverseTree(root.right)
     root.right <-- InverseTree(root.left)
     return root
+***  Find Sum in Two Binary Search Trees
+Given two binary search trees and a target x return an object that contains a node from each tree where their values add up to x. If no such pair exists return null.
+
+We can create a class that contains two nodes to return.
+
+There are two ways we can find the sum. The first way is to perform a DFS on one tree and searching the other tree for x - DFS(current.val). If such a pair exists we create a new object with both nodes and return it. The time complexity for this implementation is O(mn) where m is the number of nodes in the first tree and n is the number of nodes in the second tree. Although the time complexity for searching a tree is O(log n), it is O(log n) only if the tree is balanced. In the worse case where the tree is similar to a linked list then the time complexity is O(n). In a balanced tree the time complexity is O(m log n) and in an unbalanced tree it is O(mn).
+
+Another way to sovle this problem is to create perform an inorder traversal on both trees and convert them into arrays. We then iterate through one array and then perform binary search on the other array looking for x - M[i] where M is the inorder representation of a tree. The time complexity for this solution is O(m log n) because the arrays are sorted. However the space complexity is O(m + n) since we need to convert both trees into arrays.
+
+Tree Traversal Solution
