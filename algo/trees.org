@@ -1623,3 +1623,16 @@ Design an algorithm for reconstructing a binary tre from a preorder traversal vi
 In a preorder traversal we know that the first element is the root of the tree. If we are given null markers we can take advantage of this to construct a tree recursively by iterating through the list. Using a global variable to keep track of where we are in the preorder sequence, we can begin appending children to each subroot. If the value we retrieve at the global variable is null we simply return null. If it is not null then we return the current value in the sequence and begin recursing again.
 
 It is important we recurse left then right as this dictates the correct ordering of the tree as the preorder traversal will explore the left subtree first.
+*** Construct a Tree from Only Preorder Traversal
+Return the root node of a binary search tree that matches the given preorder traversal.
+
+I: <8,5,1,7,10,2>
+O: <8,5,10,1,7,null,2>
+
+We can take advantage of the property that the first element in the preorder sequence is the root. Since we are asked to create a bst and a preorder traversal will group elements less than and greater than the root, we can look for the pivot in the sequence by performing a linear scan. When we have found the pivot where the elements are greater than the root, we can begin recursively constructing the tree using the pivot. root.left will consist of P[1..pivot - 1] and root.right will consist of P[pivot..end].
+
+Although the solution is simple, it runs in O(n^2) time.
+
+We can optimize this solution by keeping a global index to iterate through the array. We use the global index to indicate the root and subroots of the tree. After getting the root, we can then recursively call the function to root.left after incrementing the global index by 1. After that we recursively call the function root.right.
+
+The base cases for termination for our recursion is when the globalIndex is at the end of the array, the element at the global index is less than the lower range, or the element at the global index is greater than the higher range.
