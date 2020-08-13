@@ -1688,3 +1688,29 @@ SortedArrayToBST(A, Lower, Upper)
 
     return Root
 #+END_SRC
+*** Average of Levels in Binary Tree
+Given a non-empty binary tree, return the average value of the nodes on each level in the form of an array.
+
+We can use BFS to solve this problem. The only catch here is to make sure we sum all elements at the level before going to the next level.
+
+#+BEGIN_SRC
+AverageLevels(TreeNode root)
+    queue <-- new Queue
+    list <-- new List
+    queue.add(root)
+    while queue.size != 0 do
+        temp <-- new Queue
+        node <-- Queue.remove()
+        sum <-- 0
+        count <-- 0
+        while queue.size != 0 do
+            sum += node.value
+            count += 1
+            if node.left != null do
+                temp.add(node.left)
+            if node.right != null do
+                temp.add(node.right)
+        queue <-- temp
+        list.add(sum / count)
+    return list
+#+END_SRC
