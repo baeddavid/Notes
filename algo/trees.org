@@ -1664,3 +1664,27 @@ ValidateTree(Root, Lower, Upper)
     else
         return false
 #+END_SRC
+*** Convert Sorted Array to Binary Search Tree
+Given an array where elements are sorted in asending order, convert it to a height balanced tree.
+
+If not for the second conjuction we could just create an unbalanced tree that is structurally similar to a linked list. However since it is specified that the tree must be heigh balanced we need to be careful.
+
+A sorted array is a BST printed by an inorder traversal. Having this knowledge we can begin to recursively construct the tree. Take the middle of the array and set that as our root.
+
+Root.left is equal to a recursive call where the upper bound is the value of the root.
+
+Root.right is equal to a recursive call where the lower bound is the value of the root.
+
+If the lower bound is ever greater than the upper bound then we can return null.
+
+#+BEGIN_SRC
+SortedArrayToBST(A, Lower, Upper)
+    if Lower > Upper do
+        return null
+    middle <-- Lower + (Upper - Lower) / 2
+    Root <-- new Node(A[middle])
+    Root.left <-- SortedArrayToBST(A, Lower, middle - 1)
+    Root.right <-- SortedArrayToBST(A, middle + 1, Upper)
+
+    return Root
+#+END_SRC
