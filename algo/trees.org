@@ -1636,3 +1636,31 @@ Although the solution is simple, it runs in O(n^2) time.
 We can optimize this solution by keeping a global index to iterate through the array. We use the global index to indicate the root and subroots of the tree. After getting the root, we can then recursively call the function to root.left after incrementing the global index by 1. After that we recursively call the function root.right.
 
 The base cases for termination for our recursion is when the globalIndex is at the end of the array, the element at the global index is less than the lower range, or the element at the global index is greater than the higher range.
+*** Validate Binary Search Tree
+Given a binary tree, determine if it is a valid binary search tree.
+
+A binary search tree is a tree where a node can have a maximum of two children. Its left child must be less than the value of the node; and its right child must be greater than the value of the node.
+
+This also means that an empty tree or NIL is a valid binary tree representation.
+
+It is important to note that the value of root acts as both a lower bound and upper bound. All values in the left subtree of root cannot exceed the value of the root and all values in the right subtree cannot be less than the value of the root.
+
+Having these properties in mind we have this algorithm to validate a binary tree.
+
+#+BEGIN_SRC
+ValidateTree(Root, Lower, Upper)
+    if Root = null do
+        return true
+    if Lower != null AND Root.value <= Lower do
+        return false
+    if Upper != null AND Root.value >= Upper do
+        return false
+
+    Left <-- ValidateTree(root.left, Lower, Root.value)
+    Right <-- ValidateTree(root.right, Root.value, Upper)
+
+    if Left && Right do
+        return true
+    else
+        return false
+#+END_SRC
