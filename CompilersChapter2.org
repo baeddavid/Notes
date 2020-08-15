@@ -83,7 +83,7 @@ A syntax-directed defintion associates
 +----------------------------------------+----------------------------------------+
 |         expr --> expr1 + term          |    expr.t = expr1.t || term.t || '+'   |
 +----------------------------------------+----------------------------------------+
-|         expr --> expr1 - term          |    expr.t = expr1.t || temr.t ++ '-'   |
+|         expr --> expr1 - term          |    expr.t = expr1.t || temr.t || '-'   |
 +----------------------------------------+----------------------------------------+
 |         expr --> term                  |    expr.t = term.t                     |
 +----------------------------------------+----------------------------------------+
@@ -97,3 +97,12 @@ A syntax-directed defintion associates
 Tree traversals are used for describing attribute evaluation and for specifying the execution of code fragments in a translation scheme. A traversal of a tree starts at the root and visits each node of the tree in some order.
 **** Depth First Traversal (DFS)
 DFS starts at the root and recursively visits the the children of each node in any order, not necessarily from left to right. It is called "depth-first" because it visits an unvisited child of a node whenever it can, so it visits nodes as far away from the root as quickly as it can.
+** 2.4 Parsing
+A compiler may not necessarily construct a parse tree, but it must be capable of constructing a tree in principle or else the translation cannot be guaranteed to be correct.
+
+Most parsing methods fall into one of two categories: top-down and bottom-up methods.
+
+The popularity of top-down parsers is due to the fact that efficient parsers can constructed more easily by hand using top-down methods. Bottom-up parsing can handle a larger class of grammars and translation schemes, so software tools for generating parsers directly from grammars often use bottom-up methods.
+
+*** 2.4.2 Predictive Parsing
+Recursive Descent parsing is a top-down method of syntax analysis in which a set of recursive procedures is used to process the input.
