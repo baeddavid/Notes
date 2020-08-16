@@ -1714,3 +1714,26 @@ AverageLevels(TreeNode root)
         list.add(sum / count)
     return list
 #+END_SRC
+*** Trim a Binary Tree
+Given a binary search tree and the lowest and highest boundaries as L and R, trim the tree so that all its elements lies in [L, R] (R >= L).
+
+The problem can become difficult in a certain edge case. The edge case is when the root is the node out of bounds. We can handle this with two edge cases. If the value at the root is less than the lower bound then we must consider the possibility that the right subtree of the root has values that are inbetween the bounds.
+
+If the value at the root is greater than the upper bound then we must consider the posssibility that elements in the left subtree has values that are inbetween the bounds.
+
+If the value at the root lies inbetween the bounds then we can say that the left child of the root is the left subtree but trimmed. The same can be done with the right subtree.
+
+#+BEGIN_SRC
+TrimTree(root, lower, upper)
+    if root == null do
+        return null
+    // If the value at root is less than the lower bound
+    if root.val < lower do
+        return TrimTree(root.right, lower, upper)
+    // If the value at root is greater than the upper bound
+    if root.val > upper do
+        return TrimTree(root.left, lower, upper)
+    root.left <-- TrimTree(root.left, lower, upper)
+    root.right <-- TrimTree(root.right, lower, upper)
+    return root
+#+END_SRC
