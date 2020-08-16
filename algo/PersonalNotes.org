@@ -82,10 +82,14 @@ private TreeNode helper(int[] preorder, int pStart, int pEnd, int iStart, int iE
         return null;
     }
 
+    // We can find the root of the tree because the first element in the preorder sequence is the root of the tree.
     TreeNode root = new TreeNode(preorder.get(pStart));
+    // So what are the implications of knowing the root?
+    // Well we can find where the root is in the inorder sequence. All elements left of the root in the inorder sequence are elements that belong to the left subtree. The opposing logic applies in that all elements right of the root are elements that belong to the right subtree.
+    // Because we know where the index of the root is, we can find the size of the left subtree. This is all the information we need. We know that the left subtree of the root is going to consist of all the elements from pstart + 1 to the size of the left subtree and all elements from iStart to the index of the root in I.
     int inorderRootIdx = inorderIdx.get(root.val);
-    int leftSubTreeSize = iEnd - iStart;
-   
+    int leftSubTreeSize = inorderIdx - iStart;
+
     root.left = helper(preorder, pStart + 1, pStart + 1 + leftSubTreeSize, iStart, inorderRootIdx, inorderIdx);
     root.right = helper(preorder, pStart + 1 + leftSubTreeSize, pEnd, inorderIdx + 1, iEnd, inorderIdx);
     return root;
