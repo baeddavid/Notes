@@ -95,3 +95,28 @@ private TreeNode helper(int[] preorder, int pStart, int pEnd, int iStart, int iE
     return root;
 }
 #+END_SRC
+Another example is validating a binary tree:
+#+BEGIN_SRC java
+public boolean validateTree(TreeNode root) {
+    return helper(root, null, null);
+}
+
+private boolean helper(TreeNode root, Integer lowerBound, Integer upperBound) {
+    // An empty binary tree is still a valid binary search tree
+    if(root == null) {
+        return true;
+    }
+
+    // The root of a particular tree is the upeer bound for its left subtree
+    if(lowerBound != null && root.val <= lowerBound) return false;
+
+    // The root of a particular tree is the lower bounder for its right subtree.
+    if(upperBound != null && root.val >= upperBound) return false;
+
+    // If the root's value lies in between the bounds then we need to recursively check its left and right subtrees to see if they are valid.
+    boolean left = helper(root.left, lowerBound, root.val);
+    boolean right = helper(root.right, root.val, upperBound);
+    // If both the left and right subtrees are valid that means that we have successfully validated the binary tree.
+    return (left && right) ? true : false;
+}
+#+END_SRC
