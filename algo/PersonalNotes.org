@@ -1,0 +1,65 @@
+#+TITLE: Personal Notes
+* Binary Trees
+** Global Variable
+I need to get better at using global variables. Take the following java code that constructs a tree from a preorder traversal for example:
+#+BEGIN_SRC java
+class ConstructTree {
+    // This is a global variable we are going to use to keep track of our position in the list to create our preorder tree.
+    public static int globalIndex;
+
+    public static constructTreeFromPreorder(List<Integer> preorder) {
+        if(preorder == null) {
+            return null;
+        }
+
+        globalIndex = 0;
+        return constructer(preorder, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private static constructer(List<Integer> preorder, Integer lowerBound, Integer upperBound) {
+        // If the global index is at the end of the array we have finished constructing the tree and can return null.
+        if(globalIndex == preorder.size() || preorder[globalIndex] < lowerBound || preorder[globalIndex] > upperBound) {
+            return null;
+        }
+
+        // In a preorder traversal, the element at globalIndex is the root of a subtree. Since a preorder traversal travels down the left subtree first construct the left subtree first.
+        TreeNode root = new TreeNode(preorder.get(globalIndex++));
+        // We adjust the boundaries for the tree depending on the root.
+        root.left = constructer(preorder, lowerBound, root.val);
+        root.right = constructer(preorder, root.val, upperBound);
+        return root;
+    }
+}
+#+END_SRC
+We used a global variable to avoid using a linear scan at every recursive level which would lead to a polynomial time complexity. Another example of using a global variable is checking if a tree is height balanced.
+
+#+BEGIN_SRC java
+class BalancedTree {
+    // Our boolean global variable that tells us if the tree is balanced
+    public static boolean isBalanced;
+
+    public static boolean isTreeBalanced(TreeNode root) {
+        // We set the global variable to true when we call the function
+        isBalanced = true;
+        getHeight(root);
+        // Return isBalanced. The state of this variable will be updated if the height is unbalanced by the getHeight function.
+        return isBalanced;
+    }
+
+    public static int getHeight(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+
+        int leftSize = getHeight(root.left);
+        int rightSize = getHeight(root.right);
+        // If the absolute difference between the size of the left subtree and the size of the right subtree is greater than 1 then set the global isBalanced to false.
+        if(Math.abs(leftSize - rightSize) > 1) {
+            isBalanced = false;
+        }
+
+        return Math.max(leftSize, rightSize) + 1;
+    }
+}
+#+END_SRC
+** Understanding What the Root Represents
