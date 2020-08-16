@@ -1737,3 +1737,30 @@ TrimTree(root, lower, upper)
     root.right <-- TrimTree(root.right, lower, upper)
     return root
 #+END_SRC
+*** Average Levels in a Binary Search Tree
+Given a non-empty binary tree, return the average value of the nodes on each level in the form of an array or list.
+
+We can solve this problem by using a bfs and averaging the values at each level. The only catch is that we must nest a queue within a queue, because we must remove all nodes from the level. To ensure that the integrity of the traversal is preserved we must create a temporary queue to add the next level of the tree. After averaging the current level, we set queue equal to the temporary queue.
+
+#+BEGIN_SRC
+AverageLevels(root)
+    List <-- new List
+    Queue <-- new Queue
+    Queue.add(root)
+
+    while Queue.size() != 0 do
+        temp <-- new Queue
+        currentLevelSum <-- 0
+        currentNodeCount <-- 0
+        while Queue.size() != 0 do
+            current <-- Queue.remove()
+            currentLevelSum += current.val
+            currentNodeCount += 1
+            if node.left != null do
+                temp.add(node.left)
+            if node.right != null do
+                temp.add(node.right)
+        queue <-- temp
+        List.add(currentLevelSum / currentNodeCount)
+    return List
+#+END_SRC
