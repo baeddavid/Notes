@@ -120,3 +120,37 @@ private boolean helper(TreeNode root, Integer lowerBound, Integer upperBound) {
     return (left && right) ? true : false;
 }
 #+END_SRC
+**  Traversals
+I need to better understand traversal algorithms. They are easy to memorize, but it is difficult to understand the applications/manipulation of the traversals.
+
+Take the inorder traversal for instance. The inorder traversal is a depth first traversal that visits the left leaves of the tree first before recursing upwards and and to the right child. It's recursive algorithm is easy to memorize:
+#+BEGIN_SRC java
+public void inorder(TreeNode root) {
+    if(root != null) {
+        inorder(root.left);
+        System.out.println(root.val);
+        inorder(root.right);
+    }
+}
+#+END_SRC
+
+Perhaps I need to find the leaves of a tree in right to left order. I could use a standard inorder traversal and then push the leaves into a stack and print the contents of the stack. However this would be both a waste of space and time. Instead we could just modify the inorder traversal such that we start from the right most leaf instead of the left most leaf.
+
+Why would we want to perform a RL Inorder traversal? Well maybe a certain question calls for it. Let's say we are given the root of a binary search tree with distinct values and we are asked to modify it such that every node has a new value equal to the sum of the values of the original tree that are greater than or equal to node.val.
+
+When looking at the problem you will come to the realization that the starting case for this problem is the right most leaf. This right most leaf will be incorporated into every sum. Working off that realization we can perform a RL inorder traversal while keeping track of the current sum in a global variable so that we know what the sum of all nodes to the right are so far.
+
+#+BEGIN_SRC java
+public class Solution {
+    public int sumSoFar = 0;
+    public TreeNode bstToGst(TreeNode root) {
+        if(root != null) {
+            bstToGst(root.right);
+            sumSoFar += root.val;
+            root.val += sumSoFar;
+            bstToGst(root.left);
+        }
+        return root;
+    }
+}
+#+END_SRC
