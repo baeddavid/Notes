@@ -1764,3 +1764,39 @@ AverageLevels(root)
         List.add(currentLevelSum / currentNodeCount)
     return List
 #+END_SRC
+*** Zig Zag Level Order Traversal
+Given a binary tree, return the zigzag level order traversal of its node's values.
+
+The problem structurally is similar to printing a binary tree in level order. However the zigzag traversal makes this slightly different. We must begin traversing the tree left to right, then right to left, and repeating so on. The catch here is the data structure we use to store our nodes. For example if we were to solve this problem similarily to level order traversal we may be inclined to use a queue. However implementing it with a queue would be difficult as we would run into issues of adding the nodes in the correct order when switching traversal directions.
+
+Sometimes we will need to perform FIFO and sometimes we will need to perform FILO. We can get around the complexities of using potentially two unique data structures and use two stacks.
+
+If we are currently traversing the tree level right to left then we can push nodes into a stack from right to left. This ensures that the next levels traversal will be done in right to left. If we are currently traversing the tree right to left then we must push in the nodes right to left. Since the stack data structure inherently flips the order of the items we push into it, a stack would be the ideal data structure.
+
+#+BEGIN_SRC
+ZigZagTraversal(root)
+    List <-- new List
+    Stack <-- new Stack
+    Stack.push(root)
+    isRight <-- false
+
+    while stack.size() != 0 do
+        temp <-- new Stack
+        currentTraversal <-- new List
+        while stack.size() != 0 do
+            current <-- stack.pop()
+            currentTraversal.add(current.val)
+            if isRight do
+                if current.left != null do
+                    temp.push(current.left)
+                if current.right != null do
+                    temp.push(current.right)
+            else do
+                if current.right != null do
+                    temp.push(current.right)
+                if current.left != null do
+                    temp.push(current.left)
+        traversals.add(currentTraversal)
+        isRight <-- !isRight
+    return traversals
+#+END_SRC
