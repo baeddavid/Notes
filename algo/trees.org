@@ -1800,3 +1800,31 @@ ZigZagTraversal(root)
         isRight <-- !isRight
     return traversals
 #+END_SRC
+*** Construct String from Binary Tree
+You need to construct a string consisting of parenthesis and integers from a binary tree adhereing to a preorder traversal. The null node needs to be represented by empty paranthesis pair () and you need to omit all the empty parenthesis pairs that don't affect the one-to-one mapping repaltionship between the string and the original binary tree.
+
+Input: [1,2,3,null,4]
+Output: 1(2()(4))(3)
+
+The expected output is a bit confusing and takes sometime to understand exactly what we are expected to return. It helps to understand what our base cases look like.
+
+In an instance of a null root we return an empty string.
+
+In an instance of a binary tree with only one node we return the value of the node and ana empty string.
+
+We do not need to worry if only a left child exists for a node, because marking the empty right child is unnecessary because we are asked to do a preorder traversal.
+
+In the case that the only the right child exists for a given node we must mark the empty left child with markers since the left child must be considered first. This case is particular because we do not need to explicitly handle it.
+
+#+BEGIN_SRC java
+public String tree2str(TreeNode t) {
+    // If the current root is null we return an empty string
+    if(t == null) return "";
+    // If the current root is a leaf we return the character
+    if(t.left == null && t.right == null) return t.val + "";
+    // If the root only has a left child then we return the character in addtion to the left subtree as a string
+    if(t.right == null) return t.val + "(" + tree2str(t.left) + ")";
+    // If the root either has two children or it only has a right child
+    return t.val + "(" + tree2str(t.left) + ")(" + tree2str(t.right) + ")";
+}
+#+END_SRC
