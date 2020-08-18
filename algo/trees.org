@@ -1849,3 +1849,51 @@ f(A, B)
             return true
     return false
 #+END_SRC
+*** Same Tree
+Given two binary trees, write a function to check if they are the same or not.
+
+Two binary trees are considered the same if they are structurally identical and the nodes have the same value.
+
+If both trees are null then we can return true. In the case where one root is not null but the other is then we must return false. Obviously if the values do not match then we must return false.
+
+We can only return true if both the left subtree and right subtrees are identitcal. We can recursively call same on both the left and right subtrees to see if they are identical. If they are both identical we can return true.
+
+#+BEGIN_SRC
+f(A, B)
+    if A = NIL AND B = NIL do
+        return true
+    if A = NIL OR B = NIL do
+        return false
+    if A.val != B.val do
+        return false
+    return f(A.left, B.left) AND f(A.right, B.right)
+#+END_SRC
+*** Minimum Distance Between BST Nodes
+Given a Binary Search Tree (BST) with the root node root, return the minimum difference between the values of any two different nodes in the tree.
+
+We could just throw all the nodes into an array and perform a linear scan on the array looking for the absolute minimum difference between the values. It's a linear time solution with a linear space solution.
+
+Could we do this better in place using the tree?
+I mean we could use recursion but the space complexity would be the same because of the all the recursive calls we add to the call stack.
+
+#+BEGIN_SRC
+f(root)
+    List <-- new List
+    TreeToList(root, List)
+    Min <-- Infinity
+    for i <-- 1 to A.length do
+        Min <-- Minimum(Min, A[i] - A[i - 1])
+    return Min
+
+TreeToList(root, List)
+    if root != null do
+        TreeToList(root.left, List)
+        List.add(root.val)
+        TreeToList(root.right, List)
+#+END_SRC
+*** Diameter of Binary Tree
+Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+This problem took me an embarrasingly long amount of time to solve. The solution is fairly simple. The diameter of a binary tree is essentially the longest distance between any two nodes.
+
+We can find this by finding the depth of the left tree and the right tree and adding one since we need to pass through the root.
