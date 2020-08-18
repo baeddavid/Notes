@@ -1828,3 +1828,24 @@ public String tree2str(TreeNode t) {
     return t.val + "(" + tree2str(t.left) + ")(" + tree2str(t.right) + ")";
 }
 #+END_SRC
+*** Symmetric Tree
+Given a binary tree, check whether it is a mirror of itself.
+
+We can probably do this recursively?
+Our base cases would be an empty input and single node input. If we pass a leaf into the function it should return true. If we pass null the results should depend.
+
+In an inverted tree root.right = root.left. So if root.right = null then root.left must also equal null for this case to pass. If root.right is null and root.left is not null then the case fails. So we can return false.
+
+Looks something like this maybe?
+#+BEGIN_SRC
+// Where A and B are the left and right children of the root.
+f(A, B)
+    if A = NIL AND B = nil do
+        return true
+    if A != NIL AND B != nil do
+        LeftSubTree <-- f(A.left, B.right)
+        RightSubTree <-- f(A.right, B.left)
+        if LeftSubTree = true AND RightSubTree = true AND A.val = B.val do
+            return true
+    return false
+#+END_SRC
