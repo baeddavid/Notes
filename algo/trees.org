@@ -1897,3 +1897,69 @@ Given a binary tree, you need to compute the length of the diameter of the tree.
 This problem took me an embarrasingly long amount of time to solve. The solution is fairly simple. The diameter of a binary tree is essentially the longest distance between any two nodes.
 
 We can find this by finding the depth of the left tree and the right tree and adding one since we need to pass through the root.
+#+BEGIN_SRC
+DiameterBinaryTree(root)
+    ans <-- 0
+    DFS(root)
+    return ans
+
+DFS(root)
+    if root = 0 do
+        return 0
+    Left <-- DFS(root.left)
+    Right <-- DFS(root.right)
+    ans <-- Max(ans, Left + Right)
+    return Max(Left, Right) + 1
+#+END_SRC
+*** Flatten Binary Tree to Linked List
+Given a binary tree, flatten it to a linked list in-place.
+
+It was initially a difficult question to visualize. Solving the case of a balanced tree with three nodes helps understand the brute force solution.
+
+    1
+   / \
+  2   3
+
+Given this tree we can create a linked list from it by saving the right subtree with a pointer. We then append 2 to 1.right. Do not forget to disconnect 1.left as it is still connected to 2. Using the right subtree reference we have saved, we then append the pointer to 2.right.
+
+Solving this basic base case gives us the foundation for the brute force solution. A singular node with no children can be considered a linked list. So we begin with assigning both the left and right subtrees to pointers. We then recursively call the flatten method on them. We then disconnect root.left and then append root.right to the recursively flattened left subtree. We then traverse the tree or the "list" until we reach the end and then append the recursively flattened right subtree to it.
+
+#+BEGIN_SRC
+Flatten(root)
+    if root = null do
+        return NIL
+    Left <-- root.left
+    Right <-- root.right
+
+    flatten(Left)
+    flatten(Right)
+    root.left <-- null
+
+    root.right <-- Left
+    Current <-- root
+
+    while current != null do
+        current <-- current.right
+
+    current.right <-- Right
+#+END_SRC
+
+This algorithm takes O(n log n) due to the fact that we must traverse to the end of the list to append Right.
+
+The optimal solution is very elegant. If we perform a reverse postorder traversal, you will note that we print the tree in reverse order.
+
+We can take advantage of the reversed traversal by building the list from the bottom up. We use a global pointer to keep track of the list we have constructed so far.
+
+We assign root.right to prev as prev is the pointer that holds the constructed list so far. We need to remember to assign root.left to null to disconnect any potential loops. After assigning root.right to prev, we update prev to the new "head" of the list so that we are able to continue building the list.
+
+#+BEGIN_SRC
+prev <-- NIL
+Flatten(root)
+    if root = null do
+        return NIL
+    Flatten(root.right)
+    Flatten(root.left)
+    root.right <-- prev
+    root.left <-- NIL
+    prev <-- root
+#+END_SRC
