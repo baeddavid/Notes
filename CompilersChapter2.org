@@ -107,9 +107,41 @@ The popularity of top-down parsers is due to the fact that efficient parsers can
 *** 2.4.2 Predictive Parsing
 Recursive Descent parsing is a top-down method of syntax analysis in which a set of recursive procedures is used to process the input.
 
+Predictive parsing is a simple form of precursive descent parsing. The lookahead symbol unambiguously determines the flow of control through the procedure body for each nonterminal. The sequence of procedure calls during the analysis of an input string implicitly defines a parse tree for the input, and can be used to build an explicit parse tree, if desired.
+
+Pseudocode for a predictive parser
+#+BEGIN_SRC
+void stmt() {
+    switch(lookahead) {
+        case expr:
+            match(expr); match(;); break;
+        case if:
+            match(if); match('('); match(expr); match(')'); stmt();
+            break;
+        case for:
+            match(for); match('(');
+            optexpr(); match(';'); optexpr(); match(';'); optexpr();
+            match(')'); stmt(); break;
+        case other:
+            match(other); break;
+        default:
+            report("syntax error");
+    }
+}
+
+void optexpr() {
+    if(lookahead == expr) match(expr);
+}
+
+void match(terminal t) {
+    if(lookahead == t) lookahead = nextTerminal;
+    else report("syntax error");
+}
+#+END_SRC
+
 *** 2.4.4 Designing a Predictive Parser
 Recall that a predictive parser is a program that consisting of a procedure for every nonterminal. The procedure for nonterminal A does two things.
 
-1. It decides which A-production to use by examining the lookahead sybol. The production with body \alpha (where alpha is not epsilon, the empty string) is used if the lookahead symbol is in FIRST(alpha). If there is a conflict between two nonempty bodies for any lookahead symbol, then we cannot use this parsing method on this grammar. In addition, the epsilon-production for A, if it exists, is used if the lookahead symbol is not in the FIRST set for any other production body for A.
+1. It decides which A-production to use by examining the lookahead sybol. The production with body \alpha (where \alpha is not \epsilon, the empty string) is used if the lookahead symbol is in FIRST(\alpha). If there is a conflict between two nonempty bodies for any lookahead symbol, then we cannot use this parsing method on this grammar. In addition, the epsilon-production for A, if it exists, is used if the lookahead symbol is not in the FIRST set for any other production body for A.
 
 2. The procedure then mimics the body of the chosen production. That is, the symbols of the body are "executed" in turn, from the left. A nonterminal is executed by a call to the procedure for that nonterminal, and a terminal matching the lookahead symbol executed by reading the next input symbol. If at some point the terminal in the body does not match the lookahead symbol, a syntax error is reported.
