@@ -1,0 +1,45 @@
+** Chapter 1
+*** 1.2 Structure
+There are two components to a compiler.
+1. Analysis
+   Analysis applies a grammar structure to the input. It's goal is to generate an intermediate representation of the program and pass it to the synthesis part.
+
+   It also make sure the code is syntactically sound and return any helpful messages if there are errors.
+
+   The analysis part also collects information about the source program and stores information in a data structure called a symbol table, which is passed along with the intermediate representation to the synthesis part.
+
+   The analysis part of the compiler is referred to as the front end of the compiler. Easy to think of it as front end since we feed the source program into the analysis first.
+2. Synthesis
+   Synthesis constructs the desired target program from the intermediate representation and the information from the symbol table.
+
+   In contrast to analysis, synthesis is referred to as the back end of the compiler.
+
+Source Program --> ANALYSIS --> ([Symbol Table], [Intermediate Representation]) --> BACKEND --> Target Program
+**** Analysis
+Analysis can be broken up further into seperate parts.
+The first part is called the Lexical Analysis
+***** Lexical Analysis
+The first phase of a compiler is called lexical analysis or scanning.
+
+The lexical analyzer reads the the stream of characters making up the source program and groups them into meaningful sequences called Lexemes.
+****** Lexeme
+For each lexeme, the lexical analyzer produces as output a token of the form:
+    <token-name, attribute value>
+In the token (token-name) is an abstract symbol that is used during syntax. The second component, (attribute value) points to an entry in the symbol table for this token.
+****** Example
+Let us assume that we are given the input
+position = inital + rate * 60
+We can group the following characters in this assignment into the following lexemes.
+1. Position
+   position is a lexeme that would be mapped into a token <id, 1>, where id is an abstract symbol standing for identifier and 1 points to the symbol table entry for position.
+2. =
+   The assignment symbol = is a lexeme that is mapped to the token <=>. Since this token needs no attribute-value, we have omitted the second component.
+3. initial
+   initial is a lexeme that would be mapped into a token <id, 2>, where 2 points to the symbol table entry for initial.
+4. + is a lexeme that is that is mapped to the token <+>.
+5. Rate
+   rate is a lexeme that is mapped to the token <id, 3> where 3 points to the symbol table entry for rate.
+6. *
+   * is a lexeme that is mapped to the token <*>.
+7. 60
+   60 is a lexeme that is mapped to the token <60>.
